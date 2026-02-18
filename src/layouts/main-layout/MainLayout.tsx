@@ -4,7 +4,6 @@ import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
-import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 
 import { Outlet } from "react-router";
 
@@ -61,7 +60,7 @@ export default function MainLayout() {
       }}
     >
       <MainLayoutHeader
-        logo={<AttachMoneyIcon />}
+        logo={<div>Logo</div>}
         title=""
         menuOpen={isNavigationExpanded}
         onToggleMenu={handleToggleHeaderMenu}

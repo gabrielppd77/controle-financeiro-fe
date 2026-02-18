@@ -136,17 +136,20 @@ export default function MainLayoutSidebar({
               width: mini ? MINI_DRAWER_WIDTH : "auto",
             }}
           >
-            <MainLayoutSidebarHeaderItem>
-              Main items
-            </MainLayoutSidebarHeaderItem>
+            <MainLayoutSidebarHeaderItem>Menu</MainLayoutSidebarHeaderItem>
+            <MainLayoutSidebarPageItem
+              id=""
+              title="Painel"
+              icon={<PersonIcon />}
+              href="/"
+              selected={pathname === "/"}
+            />
             <MainLayoutSidebarPageItem
               id="employees"
               title="Employees"
               icon={<PersonIcon />}
               href="/employees"
-              selected={
-                !!matchPath("/employees/*", pathname) || pathname === "/"
-              }
+              selected={!!matchPath("/employees/*", pathname)}
             />
             <MainLayoutSidebarDividerItem />
             <MainLayoutSidebarHeaderItem>

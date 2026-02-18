@@ -5,13 +5,15 @@ import {
 
 import MainLayout from "../layouts/main-layout/MainLayout";
 
+import Dashboard from "../pages/Dashboard";
+
 const router = createBrowserRouter([
   {
     Component: MainLayout,
     children: [
       {
         path: "/",
-        Component: () => <>Página em construção - Painel</>,
+        Component: Dashboard,
       },
       // {
       //   path: '/employees',
