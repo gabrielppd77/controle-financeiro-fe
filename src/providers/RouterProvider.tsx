@@ -6,6 +6,7 @@ import {
 import MainLayout from "../layouts/main-layout/MainLayout";
 
 import Dashboard from "../pages/Dashboard";
+import Lancamentos from "../pages/Lancamentos";
 
 const router = createBrowserRouter([
   {
@@ -15,10 +16,10 @@ const router = createBrowserRouter([
         path: "/",
         Component: Dashboard,
       },
-      // {
-      //   path: '/employees',
-      //   Component: EmployeeList,
-      // },
+      {
+        path: "/lancamentos",
+        Component: Lancamentos,
+      },
       // {
       //   path: '/employees/:employeeId',
       //   Component: EmployeeShow,

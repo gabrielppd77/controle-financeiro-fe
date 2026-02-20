@@ -6,17 +6,17 @@ import Drawer from "@mui/material/Drawer";
 import List from "@mui/material/List";
 import Toolbar from "@mui/material/Toolbar";
 import type {} from "@mui/material/themeCssVarsAugmentation";
-import PersonIcon from "@mui/icons-material/Person";
 import BarChartIcon from "@mui/icons-material/BarChart";
-import DescriptionIcon from "@mui/icons-material/Description";
-import LayersIcon from "@mui/icons-material/Layers";
+import PointOfSaleIcon from "@mui/icons-material/PointOfSale";
+import FeedIcon from "@mui/icons-material/Feed";
+import FactCheckIcon from "@mui/icons-material/FactCheck";
+
 import { matchPath, useLocation } from "react-router";
 
 import MainLayoutSidebarContext from "./context/MainLayoutSidebarContext";
 
 import MainLayoutSidebarPageItem from "./components/MainLayoutSidebarPageItem";
 import MainLayoutSidebarHeaderItem from "./components/MainLayoutSidebarHeaderItem";
-import MainLayoutSidebarDividerItem from "./components/MainLayoutSidebarDividerItem";
 
 import {
   DRAWER_WIDTH,
@@ -41,8 +41,6 @@ export default function MainLayoutSidebar({
   const theme = useTheme();
 
   const { pathname } = useLocation();
-
-  const [expandedItemIds, setExpandedItemIds] = React.useState<string[]>([]);
 
   const isOverSmViewport = useMediaQuery(theme.breakpoints.up("sm"));
   const isOverMdViewport = useMediaQuery(theme.breakpoints.up("md"));
@@ -88,20 +86,12 @@ export default function MainLayoutSidebar({
   );
 
   const handlePageItemClick = React.useCallback(
-    (itemId: string, hasNestedNavigation: boolean) => {
-      if (hasNestedNavigation && !mini) {
-        setExpandedItemIds((previousValue) =>
-          previousValue.includes(itemId)
-            ? previousValue.filter(
-                (previousValueItemId) => previousValueItemId !== itemId,
-              )
-            : [...previousValue, itemId],
-        );
-      } else if (!isOverSmViewport && !hasNestedNavigation) {
+    (_: string, hasNestedNavigation: boolean) => {
+      if (!isOverSmViewport && !hasNestedNavigation) {
         setExpanded(false);
       }
     },
-    [mini, setExpanded, isOverSmViewport],
+    [setExpanded, isOverSmViewport],
   );
 
   const hasDrawerTransitions =
@@ -140,68 +130,37 @@ export default function MainLayoutSidebar({
             <MainLayoutSidebarPageItem
               id=""
               title="Painel"
-              icon={<PersonIcon />}
+              icon={<BarChartIcon />}
               href="/"
               selected={pathname === "/"}
             />
+
             <MainLayoutSidebarPageItem
-              id="employees"
-              title="Employees"
-              icon={<PersonIcon />}
-              href="/employees"
-              selected={!!matchPath("/employees/*", pathname)}
-            />
-            <MainLayoutSidebarDividerItem />
-            <MainLayoutSidebarHeaderItem>
-              Example items
-            </MainLayoutSidebarHeaderItem>
-            <MainLayoutSidebarPageItem
-              id="reports"
-              title="Reports"
-              icon={<BarChartIcon />}
-              href="/reports"
-              selected={!!matchPath("/reports", pathname)}
-              defaultExpanded={!!matchPath("/reports", pathname)}
-              expanded={expandedItemIds.includes("reports")}
-              nestedNavigation={
-                <List
-                  dense
-                  sx={{
-                    padding: 0,
-                    my: 1,
-                    pl: mini ? 0 : 1,
-                    minWidth: 240,
-                  }}
-                >
-                  <MainLayoutSidebarPageItem
-                    id="sales"
-                    title="Sales"
-                    icon={<DescriptionIcon />}
-                    href="/reports/sales"
-                    selected={!!matchPath("/reports/sales", pathname)}
-                  />
-                  <MainLayoutSidebarPageItem
-                    id="traffic"
-                    title="Traffic"
-                    icon={<DescriptionIcon />}
-                    href="/reports/traffic"
-                    selected={!!matchPath("/reports/traffic", pathname)}
-                  />
-                </List>
-              }
+              id="lancamentos"
+              title="Lançamentos"
+              icon={<PointOfSaleIcon />}
+              href="/lancamentos"
+              selected={!!matchPath("/lancamentos", pathname)}
             />
             <MainLayoutSidebarPageItem
-              id="integrations"
-              title="Integrations"
-              icon={<LayersIcon />}
-              href="/integrations"
-              selected={!!matchPath("/integrations", pathname)}
+              id="tipos"
+              title="Tipos"
+              icon={<FeedIcon />}
+              href="/tipos"
+              selected={!!matchPath("/tipos", pathname)}
+            />
+            <MainLayoutSidebarPageItem
+              id="classificacoes"
+              title="Classificações"
+              icon={<FactCheckIcon />}
+              href="/classificacoes"
+              selected={!!matchPath("/classificacoes", pathname)}
             />
           </List>
         </Box>
       </React.Fragment>
     ),
-    [mini, hasDrawerTransitions, isFullyExpanded, expandedItemIds, pathname],
+    [mini, hasDrawerTransitions, isFullyExpanded, pathname],
   );
 
   const getDrawerSharedSx = React.useCallback(

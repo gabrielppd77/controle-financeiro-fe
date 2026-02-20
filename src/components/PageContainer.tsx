@@ -82,7 +82,7 @@ export default function PageContainer(props: PageContainerProps) {
             </PageHeaderBreadcrumbs>
           ) : null}
           <PageContentHeader>
-            {title ? <Typography variant="h4">{title}</Typography> : null}
+            {title ? <Typography variant="h5">{title}</Typography> : null}
             <PageHeaderToolbar>{actions}</PageHeaderToolbar>
           </PageContentHeader>
         </Stack>
