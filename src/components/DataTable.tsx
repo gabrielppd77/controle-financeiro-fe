@@ -22,7 +22,7 @@ export default function DataTable<TData extends GridValidRowModel>({
   const apiRef = useGridApiRef();
 
   return (
-    <Box sx={{ height: "100%" }}>
+    <Box>
       <LinearProgress
         sx={{
           display: isFetching ? "block" : "none",
@@ -30,6 +30,7 @@ export default function DataTable<TData extends GridValidRowModel>({
       />
       <DataGrid
         apiRef={apiRef}
+        autoHeight
         loading={isLoading}
         columns={columns}
         rows={data}

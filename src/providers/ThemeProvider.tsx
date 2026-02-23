@@ -42,7 +42,6 @@ export default function ThemeProvider(props: ThemeProviderProps) {
       MuiTextField: {
         defaultProps: {
           size: "small",
-          fullWidth: true,
         },
       },
       MuiTooltip: {
@@ -50,13 +49,6 @@ export default function ThemeProvider(props: ThemeProviderProps) {
           arrow: true,
         },
       },
-      // MuiTableCell: {
-      //   styleOverrides: {
-      //     root: {
-      //       padding: 8,
-      //     },
-      //   },
-      // },
     },
   });
 

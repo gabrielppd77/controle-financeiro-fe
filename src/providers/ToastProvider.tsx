@@ -11,12 +11,7 @@ export default function ToastProvider(props: ToastProviderProps) {
   return (
     <div>
       {children}
-      <ToastContainer
-        position="bottom-right"
-        autoClose={1500}
-        closeOnClick
-        theme="colored"
-      />
+      <ToastContainer position="bottom-right" autoClose={2000} closeOnClick />
     </div>
   );
 }

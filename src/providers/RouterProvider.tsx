@@ -7,6 +7,8 @@ import MainLayout from "../layouts/main-layout/MainLayout";
 
 import Dashboard from "../pages/Dashboard";
 import Lancamentos from "../pages/Lancamentos";
+import Tipos from "@pages/Tipos";
+import TiposForm from "@pages/Tipos/tipos-form";
 
 const router = createBrowserRouter([
   {
@@ -20,18 +22,18 @@ const router = createBrowserRouter([
         path: "/lancamentos",
         Component: Lancamentos,
       },
-      // {
-      //   path: '/employees/:employeeId',
-      //   Component: EmployeeShow,
-      // },
-      // {
-      //   path: '/employees/new',
-      //   Component: EmployeeCreate,
-      // },
-      // {
-      //   path: '/employees/:employeeId/edit',
-      //   Component: EmployeeEdit,
-      // },
+      {
+        path: "/tipos",
+        Component: Tipos,
+      },
+      {
+        path: "/tipos/novo",
+        Component: TiposForm,
+      },
+      {
+        path: "/tipos/:typeId",
+        Component: TiposForm,
+      },
       {
         path: "*",
         Component: () => <>Página em construção - Página não encontrada</>,

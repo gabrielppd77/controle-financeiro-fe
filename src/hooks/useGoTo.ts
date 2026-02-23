@@ -3,5 +3,14 @@ import { useNavigate } from "react-router";
 export function useGoTo() {
   const navigate = useNavigate();
 
-  return {};
+  function goToTiposForm(typeId?: string) {
+    if (!typeId) return navigate("/tipos/novo");
+    navigate(`/tipos/${typeId}`);
+  }
+
+  function goToTipos() {
+    navigate("/tipos");
+  }
+
+  return { goToTiposForm, goToTipos };
 }
