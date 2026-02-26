@@ -8,7 +8,9 @@ import MainLayout from "../layouts/main-layout/MainLayout";
 import Dashboard from "../pages/Dashboard";
 import Lancamentos from "../pages/Lancamentos";
 import Tipos from "@pages/Tipos";
-import TiposForm from "@pages/Tipos/tipos-form";
+import TiposForm from "@pages/Tipos/form";
+import Classificacoes from "@pages/Classificacoes";
+import ClassificacoesForm from "@pages/Classificacoes/form";
 
 const router = createBrowserRouter([
   {
@@ -33,6 +35,18 @@ const router = createBrowserRouter([
       {
         path: "/tipos/:typeId",
         Component: TiposForm,
+      },
+      {
+        path: "/classificacoes",
+        Component: Classificacoes,
+      },
+      {
+        path: "/classificacoes/novo",
+        Component: ClassificacoesForm,
+      },
+      {
+        path: "/classificacoes/:typeId",
+        Component: ClassificacoesForm,
       },
       {
         path: "*",

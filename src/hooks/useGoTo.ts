@@ -12,5 +12,19 @@ export function useGoTo() {
     navigate("/tipos");
   }
 
-  return { goToTiposForm, goToTipos };
+  function goToClassificacoesForm(classificationId?: string) {
+    if (!classificationId) return navigate("/classificacoes/novo");
+    navigate(`/classificacoes/${classificationId}`);
+  }
+
+  function goToClassificacoes() {
+    navigate("/classificacoes");
+  }
+
+  return {
+    goToTiposForm,
+    goToTipos,
+    goToClassificacoesForm,
+    goToClassificacoes,
+  };
 }
