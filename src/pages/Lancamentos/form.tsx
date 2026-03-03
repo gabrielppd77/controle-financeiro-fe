@@ -14,6 +14,8 @@ import useFinancialEntriesCreate from "./data/useFinancialEntriesCreate";
 import useFinancialEntriesUpdate from "./data/useFinancialEntriesUpdate";
 import useFinancialEntriesGet from "./data/useFinancialEntriesGet";
 import { useGoTo } from "@hooks/useGoTo";
+import CurrencyTextField from "@components/CurrencyTextField";
+import { todayDate } from "@utils";
 
 const schema = z.object({
   id: z.guid().optional(),
@@ -23,7 +25,7 @@ const schema = z.object({
     .min(0.01, "Informe pelo menos 0.01"),
   typeId: z.guid({ message: "Informe um Tipo" }),
   classificationId: z.guid({ message: "Informe uma Classificação" }),
-  description: z.string().optional().nullable(),
+  description: z.string().nullable(),
 });
 
 type DataType = z.infer<typeof schema>;
@@ -51,7 +53,13 @@ export default function LancamentosForm() {
 
   const form = useForm<DataType>({
     resolver: zodResolver(schema),
-    values: data,
+    values: data || {
+      date: todayDate(),
+      amount: 0,
+      classificationId: "",
+      typeId: "",
+      description: null,
+    },
   });
 
   async function onSubmit(d: DataType) {
@@ -83,8 +91,8 @@ export default function LancamentosForm() {
             }}
           />
           <DatePicker label="Data" name="date" required />
+          <CurrencyTextField label="Valor" name="amount" required />
           {/* date <br />
-          https://mui.com/x/react-date-pickers/date-picker/ amount <br />{" "}
           https://github.com/gabrielppd77/main-menu-admin/blob/main/src/components/CurrencyTextField/index.tsx
           typeId <br />
           https://github.com/gabrielppd77/main-menu-admin/blob/main/src/components/AutoComplete/index.tsx

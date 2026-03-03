@@ -4,5 +4,5 @@ export interface UpdateFinancialEntryRequest {
   amount: number;
   typeId: string;
   classificationId: string;
-  description?: string | null;
+  description: string | null;
 }

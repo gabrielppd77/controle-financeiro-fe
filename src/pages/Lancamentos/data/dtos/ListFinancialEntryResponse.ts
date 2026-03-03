@@ -6,5 +6,5 @@ export interface ListFinancialEntryResponse {
   typeName: string;
   classificationId: string;
   classificationName: string;
-  description?: string | null;
+  description: string | null;
 }

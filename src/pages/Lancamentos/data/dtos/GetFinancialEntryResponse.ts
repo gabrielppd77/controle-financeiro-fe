@@ -4,5 +4,5 @@ export interface GetFinancialEntryResponse {
   amount: number;
   typeId: string;
   classificationId: string;
-  description?: string | null;
+  description: string | null;
 }

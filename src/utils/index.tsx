@@ -1,3 +1,5 @@
+import dayjs from "dayjs";
+
 export function formatMoney(value: number | null | undefined) {
   if (!value) return "";
 
@@ -11,4 +13,8 @@ export function formatDate(value: string | null | undefined) {
   if (!value) return "";
 
   return new Intl.DateTimeFormat("pt-BR").format(new Date(value));
+}
+
+export function todayDate() {
+  return dayjs().format("YYYY-MM-DD");
 }
