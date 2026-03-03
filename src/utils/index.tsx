@@ -16,5 +16,5 @@ export function formatDate(value: string | null | undefined) {
 }
 
 export function todayDate() {
-  return dayjs().format("YYYY-MM-DD");
+  return dayjs().toISOString();
 }

@@ -36,12 +36,12 @@ export default function CurrencyTextField({
   return (
     <Controller
       name={name}
-      render={({ field: { onChange, value }, fieldState: { error } }) => (
+      render={({ field, fieldState }) => (
         <CurrencyTextFieldDefault
-          helperText={error ? error.message : null}
-          error={!!error}
-          onValueChange={({ floatValue }) => onChange(floatValue)}
-          value={value}
+          helperText={fieldState.error ? fieldState.error.message : null}
+          error={!!fieldState.error}
+          onValueChange={({ floatValue }) => field.onChange(floatValue)}
+          value={field.value}
           name={name}
           {...rest}
         />

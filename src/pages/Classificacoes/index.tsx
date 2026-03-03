@@ -16,7 +16,9 @@ import { confirmDelete } from "@libs/alert";
 export default function Classificacoes() {
   const pageTitle = "Classificações";
 
-  const { data, isLoading, isFetching } = useClassificationsList();
+  const { data, isLoading, isFetching } = useClassificationsList({
+    enabled: true,
+  });
   const { mutateAsync } = useClassificationsDelete();
 
   const { goToClassificacoesForm } = useGoTo();

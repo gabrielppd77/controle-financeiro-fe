@@ -16,7 +16,9 @@ import { confirmDelete } from "@libs/alert";
 export default function Tipos() {
   const pageTitle = "Tipos";
 
-  const { data, isLoading, isFetching } = useFinancialTypesList();
+  const { data, isLoading, isFetching } = useFinancialTypesList({
+    enabled: true,
+  });
   const { mutateAsync } = useFinancialTypesDelete();
 
   const { goToTiposForm } = useGoTo();

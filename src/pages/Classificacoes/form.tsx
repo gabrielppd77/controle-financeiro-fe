@@ -2,7 +2,7 @@ import { useParams } from "react-router";
 
 import PageContainer from "@components/PageContainer";
 import TextField from "@components/TextField";
-import { Box, Button, LinearProgress, Stack } from "@mui/material";
+import { Button, LinearProgress, Stack } from "@mui/material";
 
 import { z } from "zod";
 import { FormProvider, useForm } from "react-hook-form";
@@ -77,19 +77,17 @@ export default function ClassificacoesForm() {
             }}
           />
           <TextField required label="Nome" name="name" autoFocus />
-          <Box
-            sx={{
-              justifyContent: "end",
-              display: "flex",
-            }}
-          >
+          <Stack direction="row" gap={1} justifyContent="end">
+            <Button onClick={goToClassificacoes} variant="outlined">
+              Cancelar
+            </Button>
             <Button
               loading={isSubmitting}
               onClick={form.handleSubmit(onSubmit)}
             >
               Salvar
             </Button>
-          </Box>
+          </Stack>
         </Stack>
       </FormProvider>
     </PageContainer>

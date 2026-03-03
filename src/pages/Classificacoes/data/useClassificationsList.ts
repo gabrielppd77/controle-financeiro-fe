@@ -9,7 +9,11 @@ const url = "/Classifications";
 
 export const queryClassificationsList = [url];
 
-export default function useClassificationsList() {
+interface RequestProps {
+  enabled: boolean;
+}
+
+export default function useClassificationsList({ enabled }: RequestProps) {
   async function handleRequest() {
     const response = await api.get<ClassificationResponse[]>(url);
     return response.data;
@@ -18,6 +22,7 @@ export default function useClassificationsList() {
   const { error, ...rest } = useQuery({
     queryKey: [url],
     queryFn: handleRequest,
+    enabled,
   });
 
   if (error) {

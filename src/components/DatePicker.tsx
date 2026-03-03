@@ -30,7 +30,7 @@ export default function DatePicker({
             },
           }}
           onChange={(newValue) => {
-            field.onChange(newValue ? newValue.format("YYYY-MM-DD") : null);
+            field.onChange(newValue ? newValue.toISOString() : null);
           }}
           value={field.value ? dayjs(field.value) : null}
           name={name}

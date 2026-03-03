@@ -3,8 +3,10 @@ import { useParams } from "react-router";
 import PageContainer from "@components/PageContainer";
 import TextField from "@components/TextField";
 import DatePicker from "@components/DatePicker";
+import AutoCompleteTipo from "@components/AutoComplete/AutoCompleteTipo";
+import AutoCompleteClassificacao from "@components/AutoComplete/AutoCompleteClassificacao";
 
-import { Box, Button, LinearProgress, Stack } from "@mui/material";
+import { Button, LinearProgress, Stack } from "@mui/material";
 
 import { z } from "zod";
 import { FormProvider, useForm } from "react-hook-form";
@@ -53,13 +55,14 @@ export default function LancamentosForm() {
 
   const form = useForm<DataType>({
     resolver: zodResolver(schema),
-    values: data || {
+    defaultValues: {
       date: todayDate(),
       amount: 0,
       classificationId: "",
       typeId: "",
       description: null,
     },
+    values: data,
   });
 
   async function onSubmit(d: DataType) {
@@ -92,28 +95,20 @@ export default function LancamentosForm() {
           />
           <DatePicker label="Data" name="date" required />
           <CurrencyTextField label="Valor" name="amount" required />
-          {/* date <br />
-          https://github.com/gabrielppd77/main-menu-admin/blob/main/src/components/CurrencyTextField/index.tsx
-          typeId <br />
-          https://github.com/gabrielppd77/main-menu-admin/blob/main/src/components/AutoComplete/index.tsx
-          &&&
-          https://github.com/gabrielppd77/main-menu-admin/blob/main/src/components/AutoCompleteCategory/index.tsx
-          <br />
-          classificationId */}
+          <AutoCompleteTipo name="typeId" />
+          <AutoCompleteClassificacao name="classificationId" />
           <TextField label="Descrição" name="description" />
-          <Box
-            sx={{
-              justifyContent: "end",
-              display: "flex",
-            }}
-          >
+          <Stack direction="row" gap={1} justifyContent="end">
+            <Button onClick={goToLancamentos} variant="outlined">
+              Cancelar
+            </Button>
             <Button
               loading={isSubmitting}
               onClick={form.handleSubmit(onSubmit)}
             >
               Salvar
             </Button>
-          </Box>
+          </Stack>
         </Stack>
       </FormProvider>
     </PageContainer>

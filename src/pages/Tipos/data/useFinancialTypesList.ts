@@ -2,22 +2,27 @@ import { useQuery } from "@tanstack/react-query";
 
 import api from "@libs/api";
 
-import type { ListFinancialTypeResponse } from "./dtos/ListFinancialTypeResponse";
+import type { FinancialTypeResponse } from "./dtos/FinancialTypeResponse";
 import { extractError } from "@libs/alert";
 
 const url = "/FinancialTypes";
 
 export const queryFinancialTypesList = [url];
 
-export default function useFinancialTypesList() {
+interface RequestProps {
+  enabled: boolean;
+}
+
+export default function useFinancialTypesList({ enabled }: RequestProps) {
   async function handleRequest() {
-    const response = await api.get<ListFinancialTypeResponse[]>(url);
+    const response = await api.get<FinancialTypeResponse[]>(url);
     return response.data;
   }
 
   const { error, ...rest } = useQuery({
     queryKey: [url],
     queryFn: handleRequest,
+    enabled,
   });
 
   if (error) {

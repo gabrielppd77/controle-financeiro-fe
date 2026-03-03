@@ -1,0 +1,98 @@
+import { Autocomplete, CircularProgress, TextField } from "@mui/material";
+import { useEffect } from "react";
+import { Controller, type FieldError } from "react-hook-form";
+
+interface AutoCompleteProps<TData> {
+  label: string;
+  name: string;
+  options: TData[];
+  renderOptions: (d: TData) => string;
+  onRefetch: () => void;
+  isLoading?: boolean;
+  idField: keyof TData extends string ? keyof TData : never;
+  required?: boolean;
+  onChange?: (d: string) => void;
+  value?: string;
+  error?: FieldError;
+}
+
+function AutoCompleteDefault<TData>({
+  label,
+  name,
+  options,
+  renderOptions,
+  onRefetch,
+  isLoading,
+  idField,
+  required,
+  onChange,
+  value,
+  error,
+}: AutoCompleteProps<TData>) {
+  useEffect(() => {
+    if (value && options.length <= 0) {
+      onRefetch();
+    }
+  }, [value, onRefetch, options]);
+
+  return (
+    <Autocomplete
+      id="auto-complete"
+      onChange={(_, obj) =>
+        onChange && onChange(obj ? (obj[idField] as string) : "")
+      }
+      value={options.find((d) => d[idField] === value) || null}
+      getOptionLabel={renderOptions}
+      getOptionKey={(d) => d[idField] as string}
+      options={options}
+      loading={isLoading}
+      openText="Abrir"
+      clearText="Limpar"
+      closeText="Fechar"
+      loadingText="Carregando..."
+      noOptionsText="Sem opções"
+      onOpen={() => options.length <= 0 && onRefetch()}
+      renderInput={(params) => (
+        <TextField
+          {...params}
+          name={name}
+          helperText={error ? error.message : null}
+          error={!!error}
+          label={label}
+          required={required}
+          InputProps={{
+            ...params.InputProps,
+            endAdornment: (
+              <>
+                {isLoading ? (
+                  <CircularProgress color="inherit" size={20} />
+                ) : null}
+                {params.InputProps.endAdornment}
+              </>
+            ),
+          }}
+        />
+      )}
+    />
+  );
+}
+
+export default function AutoComplete<TData>({
+  name,
+  ...rest
+}: AutoCompleteProps<TData>) {
+  return (
+    <Controller
+      name={name}
+      render={({ field, fieldState }) => (
+        <AutoCompleteDefault
+          name={name}
+          onChange={field.onChange}
+          value={field.value}
+          error={fieldState.error}
+          {...rest}
+        />
+      )}
+    />
+  );
+}
