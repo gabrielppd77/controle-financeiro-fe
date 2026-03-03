@@ -8,13 +8,19 @@ import { GridActionsCellItem } from "@mui/x-data-grid";
 import PageContainer from "../../components/PageContainer";
 import DataTable from "../../components/DataTable";
 
-import { useFinancialEntriesList } from "./data/useFinancialEntriesList";
+import useFinancialEntriesList from "./data/useFinancialEntriesList";
+import useFinancialEntriesDelete from "./data/useFinancialEntriesDelete";
+import { useGoTo } from "@hooks/useGoTo";
+import { confirmDelete } from "@libs/alert";
 import { formatDate, formatMoney } from "@utils";
 
 export default function Lancamentos() {
   const pageTitle = "Lançamentos";
 
   const { data, isLoading, isFetching } = useFinancialEntriesList();
+  const { mutateAsync } = useFinancialEntriesDelete();
+
+  const { goToLancamentosForm } = useGoTo();
 
   return (
     <PageContainer
@@ -22,8 +28,12 @@ export default function Lancamentos() {
       breadcrumbs={[{ title: pageTitle }]}
       actions={
         <Stack>
-          <Button variant="contained" startIcon={<AddIcon />} color="success">
-            Criar
+          <Button
+            variant="contained"
+            startIcon={<AddIcon />}
+            onClick={() => goToLancamentosForm()}
+          >
+            Adicionar
           </Button>
         </Stack>
       }
@@ -59,16 +69,20 @@ export default function Lancamentos() {
             field: "id",
             type: "actions",
             align: "right",
-            getActions: () => [
+            getActions: ({ row }) => [
               <GridActionsCellItem
                 key="edit-item"
                 icon={<EditIcon />}
                 label="Edit"
+                onClick={() => goToLancamentosForm(row.id)}
               />,
               <GridActionsCellItem
                 key="delete-item"
                 icon={<DeleteIcon />}
                 label="Delete"
+                onClick={() =>
+                  confirmDelete(async () => await mutateAsync(row.id))
+                }
               />,
             ],
           },

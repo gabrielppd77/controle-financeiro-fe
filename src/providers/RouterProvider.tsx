@@ -7,6 +7,7 @@ import MainLayout from "../layouts/main-layout/MainLayout";
 
 import Dashboard from "../pages/Dashboard";
 import Lancamentos from "../pages/Lancamentos";
+import LancamentosForm from "@pages/Lancamentos/form";
 import Tipos from "@pages/Tipos";
 import TiposForm from "@pages/Tipos/form";
 import Classificacoes from "@pages/Classificacoes";
@@ -23,6 +24,14 @@ const router = createBrowserRouter([
       {
         path: "/lancamentos",
         Component: Lancamentos,
+      },
+      {
+        path: "/lancamentos/novo",
+        Component: LancamentosForm,
+      },
+      {
+        path: "/lancamentos/:typeId",
+        Component: LancamentosForm,
       },
       {
         path: "/tipos",

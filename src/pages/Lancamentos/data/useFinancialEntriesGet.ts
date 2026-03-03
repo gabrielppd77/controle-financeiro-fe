@@ -2,22 +2,21 @@ import { useQuery } from "@tanstack/react-query";
 
 import api from "@libs/api";
 
+import type { GetFinancialEntryResponse } from "./dtos/GetFinancialEntryResponse";
 import { extractError } from "@libs/alert";
-import type { ListFinancialEntryResponse } from "./dtos/ListFinancialEntryResponse";
 
-const url = "/FinancialEntries";
+export default function useFinancialEntriesGet(id?: string) {
+  const url = `/FinancialEntries/${id || ""}`;
 
-export const queryFinancialEntriesList = [url];
-
-export default function useFinancialEntriesList() {
   async function handleRequest() {
-    const response = await api.get<ListFinancialEntryResponse[]>(url);
+    const response = await api.get<GetFinancialEntryResponse>(url);
     return response.data;
   }
 
   const { error, ...rest } = useQuery({
     queryKey: [url],
     queryFn: handleRequest,
+    enabled: !!id,
   });
 
   if (error) {

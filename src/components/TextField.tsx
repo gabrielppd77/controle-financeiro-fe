@@ -13,18 +13,18 @@ export default function TextField({ name, type, ...rest }: TextFieldProps) {
   return (
     <Controller
       name={name}
-      render={({ field: { onChange, value }, fieldState: { error } }) => (
+      render={({ field, fieldState }) => (
         <MUITextField
-          helperText={error ? error.message : null}
-          error={!!error}
+          helperText={fieldState.error ? fieldState.error.message : null}
+          error={!!fieldState.error}
           onChange={(e) => {
             const v =
               type === "number"
                 ? parseInt(e.target.value || "0")
                 : e.target.value;
-            onChange(v);
+            field.onChange(v);
           }}
-          value={value || ""}
+          value={field.value || ""}
           name={name}
           type={type}
           {...rest}

@@ -21,10 +21,21 @@ export function useGoTo() {
     navigate("/classificacoes");
   }
 
+  function goToLancamentosForm(financialEntryId?: string) {
+    if (!financialEntryId) return navigate("/lancamentos/novo");
+    navigate(`/lancamentos/${financialEntryId}`);
+  }
+
+  function goToLancamentos() {
+    navigate("/lancamentos");
+  }
+
   return {
     goToTiposForm,
     goToTipos,
     goToClassificacoesForm,
     goToClassificacoes,
+    goToLancamentosForm,
+    goToLancamentos,
   };
 }

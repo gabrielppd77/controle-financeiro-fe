@@ -14,9 +14,9 @@ import useClassificationsGet from "./data/useClassificationsGet";
 import { useGoTo } from "@hooks/useGoTo";
 
 const schema = z.object({
-  id: z.string().optional(),
+  id: z.guid().optional(),
   name: z
-    .string({ message: "Informe o Nome" })
+    .string({ message: "Informe um Nome" })
     .min(1, "Informe pelo menos um caractere"),
 });
 

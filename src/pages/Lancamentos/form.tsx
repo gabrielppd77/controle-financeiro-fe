@@ -2,27 +2,33 @@ import { useParams } from "react-router";
 
 import PageContainer from "@components/PageContainer";
 import TextField from "@components/TextField";
+import DatePicker from "@components/DatePicker";
+
 import { Box, Button, LinearProgress, Stack } from "@mui/material";
 
 import { z } from "zod";
 import { FormProvider, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import useFinancialTypesCreate from "./data/useFinancialTypesCreate";
-import useFinancialTypesUpdate from "./data/useFinancialTypesUpdate";
-import useFinancialTypesGet from "./data/useFinancialTypesGet";
+import useFinancialEntriesCreate from "./data/useFinancialEntriesCreate";
+import useFinancialEntriesUpdate from "./data/useFinancialEntriesUpdate";
+import useFinancialEntriesGet from "./data/useFinancialEntriesGet";
 import { useGoTo } from "@hooks/useGoTo";
 
 const schema = z.object({
   id: z.guid().optional(),
-  name: z
-    .string({ message: "Informe um Nome" })
-    .min(1, "Informe pelo menos um caractere"),
+  date: z.string({ message: "Informe uma Data" }),
+  amount: z
+    .number({ message: "Informe um Valor" })
+    .min(0.01, "Informe pelo menos 0.01"),
+  typeId: z.guid({ message: "Informe um Tipo" }),
+  classificationId: z.guid({ message: "Informe uma Classificação" }),
+  description: z.string().optional().nullable(),
 });
 
 type DataType = z.infer<typeof schema>;
 
-export default function TiposForm() {
+export default function LancamentosForm() {
   const { typeId } = useParams();
 
   const isEdit = !!typeId;
@@ -33,12 +39,12 @@ export default function TiposForm() {
     data,
     isLoading: _isLoading,
     isFetching,
-  } = useFinancialTypesGet(typeId);
+  } = useFinancialEntriesGet(typeId);
   const { mutateAsync: mutateAsyncCreate, isPending: isPendingCreate } =
-    useFinancialTypesCreate();
+    useFinancialEntriesCreate();
   const { mutateAsync: mutateAsyncUpdate, isPending: isPendingUpdate } =
-    useFinancialTypesUpdate();
-  const { goToTipos } = useGoTo();
+    useFinancialEntriesUpdate();
+  const { goToLancamentos } = useGoTo();
 
   const isLoading = _isLoading || isFetching;
   const isSubmitting = isPendingCreate || isPendingUpdate;
@@ -58,13 +64,16 @@ export default function TiposForm() {
         data: d,
       });
     }
-    goToTipos();
+    goToLancamentos();
   }
 
   return (
     <PageContainer
       title={pageTitle}
-      breadcrumbs={[{ title: "Tipos", path: "/tipos" }, { title: pageTitle }]}
+      breadcrumbs={[
+        { title: "Lançamentos", path: "/lancamentos" },
+        { title: pageTitle },
+      ]}
     >
       <FormProvider {...form}>
         <Stack gap={1}>
@@ -73,7 +82,17 @@ export default function TiposForm() {
               display: isLoading ? "block" : "none",
             }}
           />
-          <TextField required label="Nome" name="name" autoFocus />
+          <DatePicker label="Data" name="date" required />
+          {/* date <br />
+          https://mui.com/x/react-date-pickers/date-picker/ amount <br />{" "}
+          https://github.com/gabrielppd77/main-menu-admin/blob/main/src/components/CurrencyTextField/index.tsx
+          typeId <br />
+          https://github.com/gabrielppd77/main-menu-admin/blob/main/src/components/AutoComplete/index.tsx
+          &&&
+          https://github.com/gabrielppd77/main-menu-admin/blob/main/src/components/AutoCompleteCategory/index.tsx
+          <br />
+          classificationId */}
+          <TextField label="Descrição" name="description" />
           <Box
             sx={{
               justifyContent: "end",

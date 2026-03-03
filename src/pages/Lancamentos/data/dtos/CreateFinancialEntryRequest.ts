@@ -1,10 +1,7 @@
-export interface ListFinancialEntryResponse {
-  id: string;
+export interface CreateFinancialEntryRequest {
   date: string;
   amount: number;
   typeId: string;
-  typeName: string;
   classificationId: string;
-  classificationName: string;
   description?: string | null;
 }
