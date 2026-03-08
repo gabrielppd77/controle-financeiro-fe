@@ -20,7 +20,7 @@ export default function useClassificationsList({ enabled }: RequestProps) {
   }
 
   const { error, ...rest } = useQuery({
-    queryKey: [url],
+    queryKey: queryClassificationsList,
     queryFn: handleRequest,
     enabled,
   });

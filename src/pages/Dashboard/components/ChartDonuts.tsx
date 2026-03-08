@@ -9,13 +9,13 @@ import TableContainer from "@mui/material/TableContainer";
 import TableRow from "@mui/material/TableRow";
 
 import { formatMoney } from "@utils";
+import type { GetStatisticMonthItemResponse } from "../data/dtos/GetStatisticMonthItemResponse";
 
-export default function ChartDonuts() {
-  const dataClassification = [
-    { value: 4268.64, label: "Receita" },
-    { value: 3790.29, label: "Despesa" },
-  ];
+interface ChartDonutsProps {
+  data: GetStatisticMonthItemResponse[];
+}
 
+export default function ChartDonuts({ data }: ChartDonutsProps) {
   return (
     <Stack component={Paper} padding={2} gap={1}>
       <Typography sx={{ textAlign: "center" }}>
@@ -26,7 +26,7 @@ export default function ChartDonuts() {
         <PieChart
           series={[
             {
-              data: dataClassification,
+              data: data,
               arcLabel: "label",
               arcLabelMinAngle: 35,
               innerRadius: 40,
@@ -34,6 +34,9 @@ export default function ChartDonuts() {
           ]}
           height={250}
           width={250}
+          localeText={{
+            noData: "Nenhuma informação para ser exibida",
+          }}
           hideLegend
           slotProps={{
             pieArcLabel: {
@@ -47,9 +50,9 @@ export default function ChartDonuts() {
         <TableContainer>
           <Table aria-label="simple table" size="small">
             <TableBody>
-              {dataClassification.map((row) => (
+              {data.map((row) => (
                 <TableRow
-                  key={row.label}
+                  key={row.id}
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
                   <TableCell component="th" scope="row">

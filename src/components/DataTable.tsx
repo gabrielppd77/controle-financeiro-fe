@@ -4,7 +4,8 @@ import type {
   GridColDef,
   GridValidRowModel,
 } from "@mui/x-data-grid";
-import { Box, LinearProgress } from "@mui/material";
+import { Box } from "@mui/material";
+import FetchingLoading from "./FetchingLoading";
 
 interface DataTableProps<TData extends GridValidRowModel> {
   data?: GridRowsProp<TData>;
@@ -23,11 +24,7 @@ export default function DataTable<TData extends GridValidRowModel>({
 
   return (
     <Box>
-      <LinearProgress
-        sx={{
-          display: isFetching ? "block" : "none",
-        }}
-      />
+      <FetchingLoading loading={isFetching} />
       <DataGrid
         apiRef={apiRef}
         autoHeight

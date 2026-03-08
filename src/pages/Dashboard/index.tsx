@@ -9,16 +9,32 @@ import { useState } from "react";
 import dayjs from "dayjs";
 import type { PickerValue } from "@mui/x-date-pickers/internals";
 
+import useDashboards from "./data/useDashboards";
+import FetchingLoading from "@components/FetchingLoading";
+
 export default function Dashboard() {
   const pageTitle = "Painel";
 
-  const [dateYearMonth, setDateYearMonth] = useState<PickerValue>(
-    dayjs().locale("pt-br"),
-  );
+  const todayLocaleDate = dayjs().locale("pt-br");
+
+  const [dateYearMonth, setDateYearMonth] =
+    useState<PickerValue>(todayLocaleDate);
+
+  const {
+    data,
+    isLoading: _isLoading,
+    isFetching,
+  } = useDashboards({
+    date: dateYearMonth?.toISOString() || todayLocaleDate.toISOString(),
+  });
+
+  const isLoading = _isLoading || isFetching;
 
   return (
     <PageContainer title={pageTitle}>
       <Typography sx={{ mb: 1 }}>Bem vindo!</Typography>
+
+      <FetchingLoading loading={isLoading} />
 
       <Stack gap={1}>
         <Stack gap={1} direction={{ sm: "column", md: "row" }}>
@@ -40,11 +56,11 @@ export default function Dashboard() {
             />
           </Stack>
           <Box sx={{ flex: 1 }}>
-            <ChartDonuts />
+            <ChartDonuts data={data?.classifications || []} />
           </Box>
         </Stack>
 
-        <ChartPie />
+        <ChartPie data={data?.types || []} />
       </Stack>
     </PageContainer>
   );

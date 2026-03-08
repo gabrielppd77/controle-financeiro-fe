@@ -6,7 +6,7 @@ import DatePicker from "@components/DatePicker";
 import AutoCompleteTipo from "@components/AutoComplete/AutoCompleteTipo";
 import AutoCompleteClassificacao from "@components/AutoComplete/AutoCompleteClassificacao";
 
-import { Button, LinearProgress, Stack } from "@mui/material";
+import { Button, Stack } from "@mui/material";
 
 import { z } from "zod";
 import { FormProvider, useForm } from "react-hook-form";
@@ -18,6 +18,7 @@ import useFinancialEntriesGet from "./data/useFinancialEntriesGet";
 import { useGoTo } from "@hooks/useGoTo";
 import CurrencyTextField from "@components/CurrencyTextField";
 import { todayDate } from "@utils";
+import FetchingLoading from "@components/FetchingLoading";
 
 const schema = z.object({
   id: z.guid().optional(),
@@ -88,11 +89,7 @@ export default function LancamentosForm() {
     >
       <FormProvider {...form}>
         <Stack gap={1}>
-          <LinearProgress
-            sx={{
-              display: isLoading ? "block" : "none",
-            }}
-          />
+          <FetchingLoading loading={isLoading} />
           <DatePicker label="Data" name="date" required autoFocus />
           <CurrencyTextField label="Valor" name="amount" required />
           <AutoCompleteTipo name="typeId" />

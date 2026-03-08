@@ -20,7 +20,7 @@ export default function useFinancialTypesList({ enabled }: RequestProps) {
   }
 
   const { error, ...rest } = useQuery({
-    queryKey: [url],
+    queryKey: queryFinancialTypesList,
     queryFn: handleRequest,
     enabled,
   });

@@ -2,7 +2,7 @@ import { useParams } from "react-router";
 
 import PageContainer from "@components/PageContainer";
 import TextField from "@components/TextField";
-import { Button, LinearProgress, Stack } from "@mui/material";
+import { Button, Stack } from "@mui/material";
 
 import { z } from "zod";
 import { FormProvider, useForm } from "react-hook-form";
@@ -12,6 +12,7 @@ import useClassificationsCreate from "./data/useClassificationsCreate";
 import useClassificationsUpdate from "./data/useClassificationsUpdate";
 import useClassificationsGet from "./data/useClassificationsGet";
 import { useGoTo } from "@hooks/useGoTo";
+import FetchingLoading from "@components/FetchingLoading";
 
 const schema = z.object({
   id: z.guid().optional(),
@@ -71,11 +72,7 @@ export default function ClassificacoesForm() {
     >
       <FormProvider {...form}>
         <Stack gap={1}>
-          <LinearProgress
-            sx={{
-              display: isLoading ? "block" : "none",
-            }}
-          />
+          <FetchingLoading loading={isLoading} />
           <TextField required label="Nome" name="name" autoFocus />
           <Stack direction="row" gap={1} justifyContent="end">
             <Button onClick={goToClassificacoes} variant="outlined">

@@ -11,21 +11,13 @@ import TableRow from "@mui/material/TableRow";
 
 import { formatMoney } from "@utils";
 
-export default function ChartPie() {
-  const dataType = [
-    { value: 4268.64, label: "Salário" },
-    { value: 995.27, label: "Lazer" },
-    { value: 887.9, label: "Saúde" },
-    { value: 532.98, label: "Transporte" },
-    { value: 472.53, label: "Necessidades básicas" },
-    { value: 411.8, label: "Casa" },
-    { value: 150, label: "?" },
-    { value: 128.03, label: "Presente" },
-    { value: 99.51, label: "Supermercado" },
-    { value: 61, label: "Alimentação (Gastos extras)" },
-    { value: 51.27, label: "Assinaturas" },
-  ];
+import type { GetStatisticMonthItemResponse } from "../data/dtos/GetStatisticMonthItemResponse";
 
+interface ChartPieProps {
+  data: GetStatisticMonthItemResponse[];
+}
+
+export default function ChartPie({ data }: ChartPieProps) {
   return (
     <Stack component={Paper} padding={2} gap={1}>
       <Typography sx={{ textAlign: "center" }}>
@@ -36,7 +28,7 @@ export default function ChartPie() {
         <PieChart
           series={[
             {
-              data: dataType,
+              data,
               arcLabel: "label",
               arcLabelMinAngle: 35,
             },
@@ -44,6 +36,9 @@ export default function ChartPie() {
           hideLegend
           height={300}
           width={300}
+          localeText={{
+            noData: "Nenhuma informação para ser exibida",
+          }}
           slotProps={{
             pieArcLabel: {
               style: {
@@ -62,9 +57,9 @@ export default function ChartPie() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {dataType.map((row) => (
+              {data.map((row) => (
                 <TableRow
-                  key={row.label}
+                  key={row.id}
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
                   <TableCell component="th" scope="row">
