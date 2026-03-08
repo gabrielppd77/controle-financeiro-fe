@@ -11,6 +11,7 @@ import type { PickerValue } from "@mui/x-date-pickers/internals";
 
 import useDashboards from "./data/useDashboards";
 import FetchingLoading from "@components/FetchingLoading";
+import ChartBar from "./components/ChartBar";
 
 export default function Dashboard() {
   const pageTitle = "Painel";
@@ -61,6 +62,8 @@ export default function Dashboard() {
         </Stack>
 
         <ChartPie data={data?.types || []} />
+
+        <ChartBar data={data?.classificationsOfYear || []} />
       </Stack>
     </PageContainer>
   );
