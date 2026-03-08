@@ -93,7 +93,7 @@ export default function LancamentosForm() {
               display: isLoading ? "block" : "none",
             }}
           />
-          <DatePicker label="Data" name="date" required />
+          <DatePicker label="Data" name="date" required autoFocus />
           <CurrencyTextField label="Valor" name="amount" required />
           <AutoCompleteTipo name="typeId" />
           <AutoCompleteClassificacao name="classificationId" />
