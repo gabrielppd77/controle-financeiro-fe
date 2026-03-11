@@ -8,7 +8,7 @@ interface ResponseData {
   title?: string;
 }
 
-export function extractError(err: unknown) {
+function extractError(err: unknown) {
   let title = "Oops...";
   let text = "Algo deu errado!";
   let icon: SweetAlertIcon = "error";
@@ -22,6 +22,12 @@ export function extractError(err: unknown) {
       icon = data.status === HttpStatusCode.BadRequest ? "warning" : "error";
     }
   }
+
+  return { title, text, icon };
+}
+
+export function fireError(err: unknown) {
+  const { icon, title, text } = extractError(err);
 
   Swal.fire({
     icon,

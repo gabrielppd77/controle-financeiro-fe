@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import api from "@libs/api";
 
 import type { FinancialTypeResponse } from "./dtos/FinancialTypeResponse";
-import { extractError } from "@libs/alert";
+import { fireError } from "@libs/alert";
 
 export default function useFinancialTypesGet(id?: string) {
   const url = `/FinancialTypes/${id || ""}`;
@@ -20,7 +20,7 @@ export default function useFinancialTypesGet(id?: string) {
   });
 
   if (error) {
-    extractError(error);
+    fireError(error);
   }
 
   return rest;

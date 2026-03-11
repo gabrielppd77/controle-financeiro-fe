@@ -5,13 +5,16 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 
-import { Outlet } from "react-router";
+import { Navigate, Outlet } from "react-router";
 
 import MainLayoutHeader from "./MainLayoutHeader";
 import MainLayoutSidebar from "./MainLayoutSidebar";
 
+import useAuth from "@hooks/useAuth";
+
 export default function MainLayout() {
   const theme = useTheme();
+  const { token } = useAuth();
 
   const [isDesktopNavigationExpanded, setIsDesktopNavigationExpanded] =
     React.useState(true);
@@ -47,6 +50,10 @@ export default function MainLayout() {
   );
 
   const layoutRef = React.useRef<HTMLDivElement>(null);
+
+  if (!token) {
+    return <Navigate to="/" />;
+  }
 
   return (
     <Box

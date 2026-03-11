@@ -131,7 +131,7 @@ export default function MainLayoutSidebar({
               id=""
               title="Painel"
               icon={<BarChartIcon />}
-              href="/"
+              href="/painel"
               selected={pathname === "/"}
             />
 

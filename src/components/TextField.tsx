@@ -4,7 +4,10 @@ import {
 } from "@mui/material";
 import { Controller } from "react-hook-form";
 
-interface TextFieldProps extends Omit<MUITextFieldProps, "label" | "name"> {
+export interface TextFieldProps extends Omit<
+  MUITextFieldProps,
+  "label" | "name"
+> {
   label: string;
   name: string;
 }

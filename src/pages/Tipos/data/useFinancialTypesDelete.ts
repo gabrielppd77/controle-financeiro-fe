@@ -3,7 +3,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import api from "@libs/api";
 
 import { notifyRemove } from "@libs/notification";
-import { extractError } from "@libs/alert";
+import { fireError } from "@libs/alert";
 
 import { queryFinancialTypesList } from "./useFinancialTypesList";
 
@@ -22,6 +22,6 @@ export default function useFinancialTypesDelete() {
         queryKey: queryFinancialTypesList,
       });
     },
-    onError: extractError,
+    onError: fireError,
   });
 }

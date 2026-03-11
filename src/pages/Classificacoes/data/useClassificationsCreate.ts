@@ -5,7 +5,7 @@ import type { CreateClassificationRequest } from "./dtos/CreateClassificationReq
 import api from "@libs/api";
 
 import { notifyCreate } from "@libs/notification";
-import { extractError } from "@libs/alert";
+import { fireError } from "@libs/alert";
 
 interface RequestProps {
   data: CreateClassificationRequest;
@@ -19,6 +19,6 @@ export default function useClassificationsCreate() {
   return useMutation({
     mutationFn: handleRequest,
     onSuccess: () => notifyCreate(),
-    onError: extractError,
+    onError: fireError,
   });
 }

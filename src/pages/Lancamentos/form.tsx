@@ -9,7 +9,7 @@ import AutoCompleteClassificacao from "@components/AutoComplete/AutoCompleteClas
 import { Button, Stack } from "@mui/material";
 
 import { z } from "zod";
-import { FormProvider, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import useFinancialEntriesCreate from "./data/useFinancialEntriesCreate";
@@ -19,6 +19,7 @@ import { useGoTo } from "@hooks/useGoTo";
 import CurrencyTextField from "@components/CurrencyTextField";
 import { todayDate } from "@utils";
 import FetchingLoading from "@components/FetchingLoading";
+import FormProvider from "@components/FormProvider";
 
 const schema = z.object({
   id: z.guid().optional(),
@@ -102,6 +103,7 @@ export default function LancamentosForm() {
             <Button
               loading={isSubmitting}
               onClick={form.handleSubmit(onSubmit)}
+              type="submit"
             >
               Salvar
             </Button>

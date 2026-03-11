@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 
 import api from "@libs/api";
 
-import { extractError } from "@libs/alert";
+import { fireError } from "@libs/alert";
 import type { ListFinancialEntryResponse } from "./dtos/ListFinancialEntryResponse";
 
 const url = "/FinancialEntries";
@@ -21,7 +21,7 @@ export default function useFinancialEntriesList() {
   });
 
   if (error) {
-    extractError(error);
+    fireError(error);
   }
 
   return rest;

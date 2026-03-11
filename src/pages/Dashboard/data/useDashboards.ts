@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 
 import api from "@libs/api";
 
-import { extractError } from "@libs/alert";
+import { fireError } from "@libs/alert";
 import type { GetStatisticMonthResponse } from "./dtos/GetStatisticMonthResponse";
 
 const url = "/Dashboards";
@@ -29,7 +29,7 @@ export default function useDashboards({ date }: RequestProps) {
   });
 
   if (error) {
-    extractError(error);
+    fireError(error);
   }
 
   return rest;

@@ -30,6 +30,18 @@ export function useGoTo() {
     navigate("/lancamentos");
   }
 
+  function goToPainel() {
+    navigate("/painel");
+  }
+
+  function goToRegistrar() {
+    navigate("/registrar");
+  }
+
+  function goToLogin() {
+    navigate("/");
+  }
+
   return {
     goToTiposForm,
     goToTipos,
@@ -37,5 +49,8 @@ export function useGoTo() {
     goToClassificacoes,
     goToLancamentosForm,
     goToLancamentos,
+    goToPainel,
+    goToRegistrar,
+    goToLogin,
   };
 }

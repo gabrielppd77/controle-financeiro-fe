@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import api from "@libs/api";
 
 import type { FinancialTypeResponse } from "./dtos/FinancialTypeResponse";
-import { extractError } from "@libs/alert";
+import { fireError } from "@libs/alert";
 
 const url = "/FinancialTypes";
 
@@ -26,7 +26,7 @@ export default function useFinancialTypesList({ enabled }: RequestProps) {
   });
 
   if (error) {
-    extractError(error);
+    fireError(error);
   }
 
   return rest;

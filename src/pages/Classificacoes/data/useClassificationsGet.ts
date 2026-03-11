@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import api from "@libs/api";
 
 import type { ClassificationResponse } from "./dtos/ClassificationResponse";
-import { extractError } from "@libs/alert";
+import { fireError } from "@libs/alert";
 
 export default function useClassificationsGet(id?: string) {
   const url = `/Classifications/${id || ""}`;
@@ -20,7 +20,7 @@ export default function useClassificationsGet(id?: string) {
   });
 
   if (error) {
-    extractError(error);
+    fireError(error);
   }
 
   return rest;

@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 
 import api from "@libs/api";
 
-import { extractError } from "@libs/alert";
+import { fireError } from "@libs/alert";
 import type { ClassificationResponse } from "./dtos/ClassificationResponse";
 
 const url = "/Classifications";
@@ -26,7 +26,7 @@ export default function useClassificationsList({ enabled }: RequestProps) {
   });
 
   if (error) {
-    extractError(error);
+    fireError(error);
   }
 
   return rest;

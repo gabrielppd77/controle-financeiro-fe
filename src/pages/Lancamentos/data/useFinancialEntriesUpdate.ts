@@ -5,7 +5,7 @@ import type { UpdateFinancialEntryRequest } from "./dtos/UpdateFinancialEntryReq
 import api from "@libs/api";
 
 import { notifyUpdate } from "@libs/notification";
-import { extractError } from "@libs/alert";
+import { fireError } from "@libs/alert";
 
 interface RequestProps {
   data: UpdateFinancialEntryRequest;
@@ -19,6 +19,6 @@ export default function useFinancialEntriesUpdate() {
   return useMutation({
     mutationFn: handleRequest,
     onSuccess: () => notifyUpdate(),
-    onError: extractError,
+    onError: fireError,
   });
 }

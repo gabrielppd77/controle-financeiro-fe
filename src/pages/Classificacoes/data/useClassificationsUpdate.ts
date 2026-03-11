@@ -5,7 +5,7 @@ import type { UpdateClassificationRequest } from "./dtos/UpdateClassificationReq
 import api from "@libs/api";
 
 import { notifyUpdate } from "@libs/notification";
-import { extractError } from "@libs/alert";
+import { fireError } from "@libs/alert";
 
 interface RequestProps {
   data: UpdateClassificationRequest;
@@ -19,6 +19,6 @@ export default function useClassificationsUpdate() {
   return useMutation({
     mutationFn: handleRequest,
     onSuccess: () => notifyUpdate(),
-    onError: extractError,
+    onError: fireError,
   });
 }

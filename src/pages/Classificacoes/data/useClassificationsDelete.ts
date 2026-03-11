@@ -3,7 +3,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import api from "@libs/api";
 
 import { notifyRemove } from "@libs/notification";
-import { extractError } from "@libs/alert";
+import { fireError } from "@libs/alert";
 
 import { queryClassificationsList } from "./useClassificationsList";
 
@@ -22,6 +22,6 @@ export default function useClassificationsDelete() {
         queryKey: queryClassificationsList,
       });
     },
-    onError: extractError,
+    onError: fireError,
   });
 }
