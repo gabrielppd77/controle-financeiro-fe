@@ -1,4 +1,4 @@
-# Etapa 1 - Build da aplicação
+# Step 1 - Build application
 FROM node:24.13.1 AS build
 
 WORKDIR /app
@@ -14,10 +14,13 @@ ENV VITE_BASE_API_URL=$VITE_BASE_API_URL
 
 RUN npm run build
 
-# Etapa 2 - Servir com nginx
+# Step 2 - Nginx
 FROM nginx:alpine
 
 COPY --from=build /app/dist /usr/share/nginx/html
+
+# replace config default of nginx
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 EXPOSE 80
 
