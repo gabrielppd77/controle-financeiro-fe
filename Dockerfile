@@ -9,8 +9,10 @@ RUN npm install
 
 COPY . .
 
-RUN npm run build
+ARG VITE_BASE_API_URL
+ENV VITE_BASE_API_URL=$VITE_BASE_API_URL
 
+RUN npm run build
 
 # Etapa 2 - Servir com nginx
 FROM nginx:alpine
