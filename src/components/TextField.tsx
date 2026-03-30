@@ -2,7 +2,7 @@ import {
   TextField as MUITextField,
   type TextFieldProps as MUITextFieldProps,
 } from "@mui/material";
-import { Controller } from "react-hook-form";
+import { Controller, useFormContext } from "react-hook-form";
 
 export interface TextFieldProps extends Omit<
   MUITextFieldProps,
@@ -13,11 +13,18 @@ export interface TextFieldProps extends Omit<
 }
 
 export default function TextField({ name, type, ...rest }: TextFieldProps) {
+  const form = useFormContext();
+
+  if (!form) {
+    return <MUITextField {...rest} name={name} type={type} />;
+  }
+
   return (
     <Controller
       name={name}
       render={({ field, fieldState }) => (
         <MUITextField
+          {...rest}
           helperText={fieldState.error ? fieldState.error.message : null}
           error={!!fieldState.error}
           onChange={(e) => {
@@ -30,7 +37,6 @@ export default function TextField({ name, type, ...rest }: TextFieldProps) {
           value={field.value || ""}
           name={name}
           type={type}
-          {...rest}
         />
       )}
     />

@@ -3,10 +3,16 @@ import useClassificationsList from "@pages/Classificacoes/data/useClassification
 
 interface AutoCompleteClassificacaoProps {
   name: string;
+  required?: boolean;
+  onChange?: (d: string) => void;
+  value?: string;
 }
 
 export default function AutoCompleteClassificacao({
   name,
+  required,
+  onChange,
+  value,
 }: AutoCompleteClassificacaoProps) {
   const {
     data,
@@ -25,7 +31,9 @@ export default function AutoCompleteClassificacao({
       idField="id"
       renderOptions={(d) => d.name}
       onRefetch={refetch}
-      required
+      required={required}
+      onChange={onChange}
+      value={value}
     />
   );
 }

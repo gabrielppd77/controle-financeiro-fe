@@ -3,9 +3,17 @@ import AutoComplete from "./AutoComplete";
 
 interface AutoCompleteTipoProps {
   name: string;
+  required?: boolean;
+  onChange?: (d: string) => void;
+  value?: string;
 }
 
-export default function AutoCompleteTipo({ name }: AutoCompleteTipoProps) {
+export default function AutoCompleteTipo({
+  name,
+  required,
+  onChange,
+  value,
+}: AutoCompleteTipoProps) {
   const {
     data,
     isLoading: _isLoading,
@@ -23,7 +31,9 @@ export default function AutoCompleteTipo({ name }: AutoCompleteTipoProps) {
       idField="id"
       renderOptions={(d) => d.name}
       onRefetch={refetch}
-      required
+      required={required}
+      onChange={onChange}
+      value={value}
     />
   );
 }

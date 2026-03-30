@@ -1,6 +1,6 @@
 import { Autocomplete, CircularProgress, TextField } from "@mui/material";
 import { useEffect } from "react";
-import { Controller, type FieldError } from "react-hook-form";
+import { Controller, useFormContext, type FieldError } from "react-hook-form";
 
 interface AutoCompleteProps<TData> {
   label: string;
@@ -81,16 +81,22 @@ export default function AutoComplete<TData>({
   name,
   ...rest
 }: AutoCompleteProps<TData>) {
+  const form = useFormContext();
+
+  if (!form) {
+    return <AutoCompleteDefault {...rest} name={name} />;
+  }
+
   return (
     <Controller
       name={name}
       render={({ field, fieldState }) => (
         <AutoCompleteDefault
+          {...rest}
           name={name}
           onChange={field.onChange}
           value={field.value}
           error={fieldState.error}
-          {...rest}
         />
       )}
     />
