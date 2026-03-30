@@ -6,7 +6,7 @@ import DatePicker from "@components/DatePicker";
 import AutoCompleteTipo from "@components/AutoComplete/AutoCompleteTipo";
 import AutoCompleteClassificacao from "@components/AutoComplete/AutoCompleteClassificacao";
 
-import { Button, Stack } from "@mui/material";
+import { Button, Grid, Stack } from "@mui/material";
 
 import { z } from "zod";
 import { useForm } from "react-hook-form";
@@ -90,12 +90,29 @@ export default function LancamentosForm() {
     >
       <FormProvider {...form}>
         <Stack gap={1}>
-          <FetchingLoading loading={isLoading} />
-          <DatePicker label="Data" name="date" required autoFocus />
-          <CurrencyTextField label="Valor" name="amount" required />
-          <AutoCompleteTipo name="typeId" />
-          <AutoCompleteClassificacao name="classificationId" />
-          <TextField label="Descrição" name="description" />
+          <Grid container spacing={1}>
+            <FetchingLoading loading={isLoading} />
+            <Grid size={{ xs: 12, sm: 6 }}>
+              <DatePicker label="Data" name="date" required autoFocus />
+            </Grid>
+            <Grid size={{ xs: 12, sm: 6 }}>
+              <CurrencyTextField label="Valor" name="amount" required />
+            </Grid>
+            <Grid size={{ xs: 12, sm: 6 }}>
+              <AutoCompleteTipo name="typeId" required />
+            </Grid>
+            <Grid size={{ xs: 12, sm: 6 }}>
+              <AutoCompleteClassificacao name="classificationId" required />
+            </Grid>
+            <Grid size={{ xs: 12 }}>
+              <TextField
+                label="Descrição"
+                name="description"
+                rows={4}
+                multiline
+              />
+            </Grid>
+          </Grid>
           <Stack direction="row" gap={1} justifyContent="end">
             <Button onClick={goToLancamentos} variant="outlined">
               Cancelar

@@ -4,19 +4,24 @@ import api from "@libs/api";
 
 import { fireError } from "@libs/alert";
 import type { ListFinancialEntryResponse } from "./dtos/ListFinancialEntryResponse";
+import type { FinancialEntryFilterDto } from "./dtos/FinancialEntryFilterDto";
 
-const url = "/FinancialEntries";
+const url = "/FinancialEntries/List";
 
 export const queryFinancialEntriesList = [url];
 
-export default function useFinancialEntriesList() {
+interface RequestProps {
+  data: FinancialEntryFilterDto;
+}
+
+export default function useFinancialEntriesList({ data }: RequestProps) {
   async function handleRequest() {
-    const response = await api.get<ListFinancialEntryResponse[]>(url);
+    const response = await api.post<ListFinancialEntryResponse[]>(url, data);
     return response.data;
   }
 
   const { error, ...rest } = useQuery({
-    queryKey: queryFinancialEntriesList,
+    queryKey: [...queryFinancialEntriesList, data],
     queryFn: handleRequest,
   });
 

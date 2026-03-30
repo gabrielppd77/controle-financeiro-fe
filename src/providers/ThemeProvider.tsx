@@ -42,6 +42,7 @@ export default function ThemeProvider(props: ThemeProviderProps) {
       MuiTextField: {
         defaultProps: {
           size: "small",
+          fullWidth: true,
         },
       },
       MuiTooltip: {

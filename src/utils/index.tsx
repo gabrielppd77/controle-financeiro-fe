@@ -18,3 +18,11 @@ export function formatDate(value: string | null | undefined) {
 export function todayDate() {
   return dayjs().toISOString();
 }
+
+export function startOfMonth() {
+  return dayjs().startOf("month").toISOString();
+}
+
+export function endOfMonth() {
+  return dayjs().endOf("month").toISOString();
+}
