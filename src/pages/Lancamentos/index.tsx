@@ -4,6 +4,7 @@ import AddIcon from "@mui/icons-material/Add";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { GridActionsCellItem } from "@mui/x-data-grid";
+import { Grid, Typography } from "@mui/material";
 
 import PageContainer from "../../components/PageContainer";
 import DataTable from "../../components/DataTable";
@@ -23,7 +24,6 @@ import AutoCompleteClassificacao from "@components/AutoComplete/AutoCompleteClas
 import TextFieldDebounce from "@components/TextFieldDebounce";
 import DatePicker from "@components/DatePicker";
 import dayjs from "dayjs";
-import { Grid } from "@mui/material";
 
 export default function Lancamentos() {
   const pageTitle = "Lançamentos";
@@ -70,6 +70,10 @@ export default function Lancamentos() {
 
     setSearchParams(params);
   }
+
+  const valueTotal = (data || []).reduce((pv, ct) => {
+    return pv + ct.amount;
+  }, 0);
 
   return (
     <PageContainer
@@ -156,7 +160,7 @@ export default function Lancamentos() {
           />
         </Grid>
 
-        <Grid size={{ xs: 12 }}>
+        <Grid size={{ xs: 10 }}>
           <TextFieldDebounce
             label="Buscar"
             name="searchText"
@@ -166,6 +170,17 @@ export default function Lancamentos() {
             value={filters.searchText || undefined}
             fullWidth
           />
+        </Grid>
+
+        <Grid
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+          size={{ xs: 2 }}
+        >
+          <Typography>Valor total: {formatMoney(valueTotal)}</Typography>
         </Grid>
       </Grid>
 
