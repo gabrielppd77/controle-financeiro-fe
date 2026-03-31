@@ -77,7 +77,7 @@ export default function LancamentosForm() {
         data: d,
       });
     }
-    goToLancamentos();
+    form.reset();
   }
 
   return (
