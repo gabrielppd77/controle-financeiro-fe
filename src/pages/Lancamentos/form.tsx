@@ -12,10 +12,12 @@ import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
+import useStorageValues from "@hooks/useStorageValues";
+import { useGoTo } from "@hooks/useGoTo";
+
 import useFinancialEntriesCreate from "./data/useFinancialEntriesCreate";
 import useFinancialEntriesUpdate from "./data/useFinancialEntriesUpdate";
 import useFinancialEntriesGet from "./data/useFinancialEntriesGet";
-import { useGoTo } from "@hooks/useGoTo";
 import CurrencyTextField from "@components/CurrencyTextField";
 import { todayDate } from "@utils";
 import FetchingLoading from "@components/FetchingLoading";
@@ -55,13 +57,25 @@ export default function LancamentosForm() {
   const isLoading = _isLoading || isFetching;
   const isSubmitting = isPendingCreate || isPendingUpdate;
 
+  const favDateKey = "fav_date";
+  const favClassificationIdKey = "fav_classificationId";
+  const favTypeIdKey = "fav_typeId";
+
+  const storageValues = useStorageValues();
+
+  const getLastFavValues = () => {
+    return {
+      date: storageValues.get(favDateKey) || todayDate(),
+      classificationId: storageValues.get(favClassificationIdKey) || "",
+      typeId: storageValues.get(favTypeIdKey) || "",
+    };
+  };
+
   const form = useForm<DataType>({
     resolver: zodResolver(schema),
     defaultValues: {
-      date: todayDate(),
+      ...getLastFavValues(),
       amount: 0,
-      classificationId: "",
-      typeId: "",
       description: null,
     },
     values: data,
@@ -77,7 +91,12 @@ export default function LancamentosForm() {
         data: d,
       });
     }
-    form.reset();
+
+    storageValues.set(favDateKey, d.date);
+    storageValues.set(favTypeIdKey, d.typeId);
+    storageValues.set(favClassificationIdKey, d.classificationId);
+
+    form.reset({ ...getLastFavValues() });
   }
 
   return (
@@ -93,10 +112,15 @@ export default function LancamentosForm() {
           <Grid container spacing={1}>
             <FetchingLoading loading={isLoading} />
             <Grid size={{ xs: 12, sm: 6 }}>
-              <DatePicker label="Data" name="date" required autoFocus />
+              <DatePicker label="Data" name="date" required />
             </Grid>
             <Grid size={{ xs: 12, sm: 6 }}>
-              <CurrencyTextField label="Valor" name="amount" required />
+              <CurrencyTextField
+                label="Valor"
+                name="amount"
+                required
+                autoFocus
+              />
             </Grid>
             <Grid size={{ xs: 12, sm: 6 }}>
               <AutoCompleteTipo name="typeId" required />
