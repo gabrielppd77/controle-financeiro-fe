@@ -21,7 +21,6 @@ export default function DatePicker({
   if (!form) {
     return (
       <MUIDatePicker
-        {...rest}
         slotProps={{
           textField: {
             size: "small",
@@ -31,6 +30,7 @@ export default function DatePicker({
         }}
         name={name}
         format="DD/MM/YYYY"
+        {...rest}
       />
     );
   }
@@ -40,7 +40,6 @@ export default function DatePicker({
       name={name}
       render={({ field, fieldState }) => (
         <MUIDatePicker
-          {...rest}
           slotProps={{
             textField: {
               helperText: fieldState.error ? fieldState.error.message : null,
@@ -56,6 +55,7 @@ export default function DatePicker({
           value={field.value ? dayjs(field.value) : null}
           name={name}
           format="DD/MM/YYYY"
+          {...rest}
         />
       )}
     />

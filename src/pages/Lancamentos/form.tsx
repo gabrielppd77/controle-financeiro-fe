@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useParams } from "react-router";
 
 import PageContainer from "@components/PageContainer";
@@ -5,8 +6,9 @@ import TextField from "@components/TextField";
 import DatePicker from "@components/DatePicker";
 import AutoCompleteTipo from "@components/AutoComplete/AutoCompleteTipo";
 import AutoCompleteClassificacao from "@components/AutoComplete/AutoCompleteClassificacao";
+import { Close, Help } from "@mui/icons-material";
 
-import { Button, Grid, Stack } from "@mui/material";
+import { Button, Grid, IconButton, Stack, Tooltip } from "@mui/material";
 
 import { z } from "zod";
 import { useForm } from "react-hook-form";
@@ -22,6 +24,7 @@ import CurrencyTextField from "@components/CurrencyTextField";
 import { todayDate } from "@utils";
 import FetchingLoading from "@components/FetchingLoading";
 import FormProvider from "@components/FormProvider";
+import dayjs from "dayjs";
 
 const schema = z.object({
   id: z.guid().optional(),
@@ -38,6 +41,11 @@ type DataType = z.infer<typeof schema>;
 
 export default function LancamentosForm() {
   const { typeId } = useParams();
+
+  const [openReplicate, setOpenReplicate] = useState(false);
+  const [replicateUntilDate, setReplicateUntilDate] = useState<string | null>(
+    null,
+  );
 
   const isEdit = !!typeId;
 
@@ -89,6 +97,9 @@ export default function LancamentosForm() {
     } else {
       await mutateAsyncCreate({
         data: d,
+        params: {
+          replicateUntilDate,
+        },
       });
     }
 
@@ -97,6 +108,9 @@ export default function LancamentosForm() {
     storageValues.set(favClassificationIdKey, d.classificationId);
 
     form.reset({ ...getLastFavValues() });
+
+    setOpenReplicate(false);
+    setReplicateUntilDate(null);
   }
 
   return (
@@ -137,17 +151,56 @@ export default function LancamentosForm() {
               />
             </Grid>
           </Grid>
-          <Stack direction="row" gap={1} justifyContent="end">
-            <Button onClick={goToLancamentos} variant="outlined">
-              Cancelar
-            </Button>
-            <Button
-              loading={isSubmitting}
-              onClick={form.handleSubmit(onSubmit)}
-              type="submit"
-            >
-              Salvar
-            </Button>
+
+          <Stack
+            direction="row"
+            gap={1}
+            justifyContent="space-between"
+            alignItems="center"
+          >
+            {openReplicate ? (
+              <Stack direction="row" gap={1} alignItems="center">
+                <DatePicker
+                  label="Replicar até"
+                  name="replicateUntilDate"
+                  format="MM/YYYY"
+                  value={replicateUntilDate ? dayjs(replicateUntilDate) : null}
+                  onChange={(newValue) => {
+                    setReplicateUntilDate(
+                      newValue ? newValue.toISOString() : null,
+                    );
+                  }}
+                />
+                <Tooltip title="Vamos replicar até o mês informado e vamos inclui-lo também">
+                  <Help color="info" />
+                </Tooltip>
+                <IconButton
+                  onClick={() => {
+                    setOpenReplicate(false);
+                    setReplicateUntilDate(null);
+                  }}
+                >
+                  <Close />
+                </IconButton>
+              </Stack>
+            ) : (
+              <Button onClick={() => setOpenReplicate(true)}>
+                Replicar o registro?
+              </Button>
+            )}
+
+            <Stack direction="row" gap={1} justifyContent="end">
+              <Button onClick={goToLancamentos} variant="outlined">
+                Cancelar
+              </Button>
+              <Button
+                loading={isSubmitting}
+                onClick={form.handleSubmit(onSubmit)}
+                type="submit"
+              >
+                Salvar
+              </Button>
+            </Stack>
           </Stack>
         </Stack>
       </FormProvider>

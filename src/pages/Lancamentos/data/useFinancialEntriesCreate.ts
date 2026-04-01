@@ -9,11 +9,16 @@ import { fireError } from "@libs/alert";
 
 interface RequestProps {
   data: CreateFinancialEntryRequest;
+  params: {
+    replicateUntilDate: string | null;
+  };
 }
 
 export default function useFinancialEntriesCreate() {
-  async function handleRequest({ data }: RequestProps) {
-    await api.post("/FinancialEntries", data);
+  async function handleRequest({ data, params }: RequestProps) {
+    await api.post("/FinancialEntries", data, {
+      params,
+    });
   }
 
   return useMutation({
