@@ -12,14 +12,19 @@ export default function ChartBar({ data }: ChartBarProps) {
 
   const labels = [...new Set(data.map((x) => x.label))];
 
-  const series = labels.map((label) => ({
-    label,
-    data: months.map((month) => {
-      const found = data.find((x) => x.month === month && x.label === label);
+  const series = labels.map((label) => {
+    const itemsByLabel = data.filter((x) => x.label === label);
 
-      return found?.value ?? 0;
-    }),
-  }));
+    return {
+      label,
+      color: itemsByLabel[0]?.color || "",
+      data: months.map((month) => {
+        const found = data.find((x) => x.month === month && x.label === label);
+
+        return found?.value ?? 0;
+      }),
+    };
+  });
 
   return (
     <Stack component={Paper} padding={2} gap={1}>

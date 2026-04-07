@@ -7,6 +7,7 @@ import { GridActionsCellItem } from "@mui/x-data-grid";
 
 import PageContainer from "../../components/PageContainer";
 import DataTable from "../../components/DataTable";
+import BoxColor from "@components/BoxColor";
 
 import useClassificationsList from "./data/useClassificationsList";
 import useClassificationsDelete from "./data/useClassificationsDelete";
@@ -45,6 +46,11 @@ export default function Classificacoes() {
             field: "name",
             headerName: "Nome",
             flex: 1,
+          },
+          {
+            field: "color",
+            headerName: "Cor",
+            renderCell: ({ row }) => <BoxColor color={row.color} />,
           },
           {
             field: "id",

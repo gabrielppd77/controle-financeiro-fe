@@ -14,12 +14,14 @@ import useClassificationsGet from "./data/useClassificationsGet";
 import { useGoTo } from "@hooks/useGoTo";
 import FetchingLoading from "@components/FetchingLoading";
 import FormProvider from "@components/FormProvider";
+import ColorPicker from "@components/ColorPicker";
 
 const schema = z.object({
   id: z.guid().optional(),
   name: z
     .string({ message: "Informe um Nome" })
     .min(1, "Informe pelo menos um caractere"),
+  color: z.string().nullable(),
 });
 
 type DataType = z.infer<typeof schema>;
@@ -48,6 +50,9 @@ export default function ClassificacoesForm() {
   const form = useForm<DataType>({
     resolver: zodResolver(schema),
     values: data,
+    defaultValues: {
+      color: null,
+    },
   });
 
   async function onSubmit(d: DataType) {
@@ -75,6 +80,7 @@ export default function ClassificacoesForm() {
         <Stack gap={1}>
           <FetchingLoading loading={isLoading} />
           <TextField required label="Nome" name="name" autoFocus />
+          <ColorPicker label="Cor" name="color" />
           <Stack direction="row" gap={1} justifyContent="end">
             <Button onClick={goToClassificacoes} variant="outlined">
               Cancelar

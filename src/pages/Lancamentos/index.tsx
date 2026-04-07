@@ -4,7 +4,7 @@ import AddIcon from "@mui/icons-material/Add";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { GridActionsCellItem } from "@mui/x-data-grid";
-import { Grid, Typography } from "@mui/material";
+import { Box, Grid, Typography } from "@mui/material";
 
 import PageContainer from "../../components/PageContainer";
 import DataTable from "../../components/DataTable";
@@ -24,6 +24,7 @@ import AutoCompleteClassificacao from "@components/AutoComplete/AutoCompleteClas
 import TextFieldDebounce from "@components/TextFieldDebounce";
 import DatePicker from "@components/DatePicker";
 import dayjs from "dayjs";
+import BoxColor from "@components/BoxColor";
 
 export default function Lancamentos() {
   const pageTitle = "Lançamentos";
@@ -200,11 +201,24 @@ export default function Lancamentos() {
           {
             field: "typeName",
             headerName: "Tipo",
+            minWidth: 150,
+            renderCell: ({ row }) => (
+              <Box display="flex" alignItems="center" gap={1}>
+                {row.typeName}
+                <BoxColor color={row.typeColor} fine />
+              </Box>
+            ),
           },
           {
             field: "classificationName",
             headerName: "Classificação",
             minWidth: 110,
+            renderCell: ({ row }) => (
+              <Box display="flex" alignItems="center" gap={1}>
+                {row.classificationName}
+                <BoxColor color={row.classificationColor} fine />
+              </Box>
+            ),
           },
           {
             field: "description",
