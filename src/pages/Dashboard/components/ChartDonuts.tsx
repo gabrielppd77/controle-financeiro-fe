@@ -26,7 +26,7 @@ export default function ChartDonuts({ data }: ChartDonutsProps) {
         <PieChart
           series={[
             {
-              data: data,
+              data: data.map((d) => ({ ...d, color: d.color || undefined })),
               arcLabel: "label",
               arcLabelMinAngle: 35,
               innerRadius: 40,

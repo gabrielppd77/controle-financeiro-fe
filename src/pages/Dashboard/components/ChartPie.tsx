@@ -28,7 +28,7 @@ export default function ChartPie({ data }: ChartPieProps) {
         <PieChart
           series={[
             {
-              data,
+              data: data.map((d) => ({ ...d, color: d.color || undefined })),
               arcLabel: "label",
               arcLabelMinAngle: 35,
             },
