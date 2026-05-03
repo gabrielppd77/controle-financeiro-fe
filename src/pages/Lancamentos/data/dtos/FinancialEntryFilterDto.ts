@@ -1,3 +1,5 @@
+import type { ClassificationEnum } from "./ClassificationEnum";
+
 export interface FinancialEntryFilterDto {
   initialDate: string | null;
   finalDate: string | null;
@@ -5,5 +7,5 @@ export interface FinancialEntryFilterDto {
   finalAmount: number | null;
   searchText: string | null;
   typeId: string | null;
-  classificationId: string | null;
+  classification: ClassificationEnum | null;
 }

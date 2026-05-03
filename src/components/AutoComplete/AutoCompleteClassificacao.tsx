@@ -1,5 +1,5 @@
+import { ClassificationList } from "@pages/Lancamentos/data/dtos/ClassificationEnum";
 import AutoComplete from "./AutoComplete";
-import useClassificationsList from "@pages/Classificacoes/data/useClassificationsList";
 
 interface AutoCompleteClassificacaoProps {
   name: string;
@@ -7,30 +7,19 @@ interface AutoCompleteClassificacaoProps {
   onChange?: (d: string) => void;
   value?: string;
 }
-
 export default function AutoCompleteClassificacao({
   name,
   required,
   onChange,
   value,
 }: AutoCompleteClassificacaoProps) {
-  const {
-    data,
-    isLoading: _isLoading,
-    isFetching,
-    refetch,
-  } = useClassificationsList({ enabled: false });
-  const isLoading = _isLoading || isFetching;
-
   return (
     <AutoComplete
-      options={data || []}
-      isLoading={isLoading}
+      options={ClassificationList}
       label="Classificação"
       name={name}
-      idField="id"
-      renderOptions={(d) => d.name}
-      onRefetch={refetch}
+      idField="value"
+      renderOptions={(d) => d.label}
       required={required}
       onChange={onChange}
       value={value}

@@ -25,6 +25,7 @@ import TextFieldDebounce from "@components/TextFieldDebounce";
 import DatePicker from "@components/DatePicker";
 import dayjs from "dayjs";
 import BoxColor from "@components/BoxColor";
+import type { ClassificationEnum } from "./data/dtos/ClassificationEnum";
 
 export default function Lancamentos() {
   const pageTitle = "Lançamentos";
@@ -48,7 +49,9 @@ export default function Lancamentos() {
       : null,
     searchText: searchParams.get("searchText"),
     typeId: searchParams.get("typeId"),
-    classificationId: searchParams.get("classificationId"),
+    classification: searchParams.get(
+      "classification",
+    ) as ClassificationEnum | null,
   };
 
   const { data, isLoading, isFetching } = useFinancialEntriesList({
@@ -153,11 +156,14 @@ export default function Lancamentos() {
 
         <Grid size={{ xs: 12, sm: 6 }}>
           <AutoCompleteClassificacao
-            name="classificationId"
+            name="classification"
             onChange={(d) =>
-              updateFilters({ ...filters, classificationId: d || null })
+              updateFilters({
+                ...filters,
+                classification: (d as ClassificationEnum) || null,
+              })
             }
-            value={filters.classificationId || undefined}
+            value={filters.classification || undefined}
           />
         </Grid>
 

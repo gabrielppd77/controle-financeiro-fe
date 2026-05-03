@@ -12,15 +12,6 @@ export function useGoTo() {
     navigate("/tipos");
   }
 
-  function goToClassificacoesForm(classificationId?: string) {
-    if (!classificationId) return navigate("/classificacoes/novo");
-    navigate(`/classificacoes/${classificationId}`);
-  }
-
-  function goToClassificacoes() {
-    navigate("/classificacoes");
-  }
-
   function goToLancamentosForm(financialEntryId?: string) {
     if (!financialEntryId) return navigate("/lancamentos/novo");
     navigate(`/lancamentos/${financialEntryId}`);
@@ -45,8 +36,6 @@ export function useGoTo() {
   return {
     goToTiposForm,
     goToTipos,
-    goToClassificacoesForm,
-    goToClassificacoes,
     goToLancamentosForm,
     goToLancamentos,
     goToPainel,

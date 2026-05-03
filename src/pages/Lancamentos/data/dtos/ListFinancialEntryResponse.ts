@@ -1,3 +1,5 @@
+import type { ClassificationEnum } from "./ClassificationEnum";
+
 export interface ListFinancialEntryResponse {
   id: string;
   date: string;
@@ -5,7 +7,7 @@ export interface ListFinancialEntryResponse {
   typeId: string;
   typeName: string;
   typeColor: string;
-  classificationId: string;
+  classification: ClassificationEnum;
   classificationName: string;
   classificationColor: string | null;
   description: string | null;

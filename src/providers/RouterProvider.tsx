@@ -11,8 +11,6 @@ import Lancamentos from "@pages/Lancamentos";
 import LancamentosForm from "@pages/Lancamentos/form";
 import Tipos from "@pages/Tipos";
 import TiposForm from "@pages/Tipos/form";
-import Classificacoes from "@pages/Classificacoes";
-import ClassificacoesForm from "@pages/Classificacoes/form";
 import Login from "@pages/Login";
 import Register from "@pages/Register";
 
@@ -60,18 +58,6 @@ const router = createBrowserRouter([
       {
         path: "/tipos/:typeId",
         Component: TiposForm,
-      },
-      {
-        path: "/classificacoes",
-        Component: Classificacoes,
-      },
-      {
-        path: "/classificacoes/novo",
-        Component: ClassificacoesForm,
-      },
-      {
-        path: "/classificacoes/:typeId",
-        Component: ClassificacoesForm,
       },
       {
         path: "*",

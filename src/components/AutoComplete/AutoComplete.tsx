@@ -7,7 +7,7 @@ interface AutoCompleteProps<TData> {
   name: string;
   options: TData[];
   renderOptions: (d: TData) => string;
-  onRefetch: () => void;
+  onRefetch?: () => void;
   isLoading?: boolean;
   idField: keyof TData extends string ? keyof TData : never;
   required?: boolean;
@@ -30,7 +30,7 @@ function AutoCompleteDefault<TData>({
   error,
 }: AutoCompleteProps<TData>) {
   useEffect(() => {
-    if (value && options.length <= 0) {
+    if (value && options.length <= 0 && onRefetch) {
       onRefetch();
     }
   }, [value, onRefetch, options]);
@@ -51,7 +51,7 @@ function AutoCompleteDefault<TData>({
       closeText="Fechar"
       loadingText="Carregando..."
       noOptionsText="Sem opções"
-      onOpen={() => options.length <= 0 && onRefetch()}
+      onOpen={() => options.length <= 0 && onRefetch && onRefetch()}
       renderInput={(params) => (
         <TextField
           {...params}

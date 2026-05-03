@@ -1,7 +1,9 @@
+import type { ClassificationEnum } from "./ClassificationEnum";
+
 export interface CreateFinancialEntryRequest {
   date: string;
   amount: number;
   typeId: string;
-  classificationId: string;
+  classification: ClassificationEnum;
   description: string | null;
 }

@@ -25,6 +25,7 @@ import { todayDate } from "@utils";
 import FetchingLoading from "@components/FetchingLoading";
 import FormProvider from "@components/FormProvider";
 import dayjs from "dayjs";
+import { ClassificationEnum } from "./data/dtos/ClassificationEnum";
 
 const schema = z.object({
   id: z.guid().optional(),
@@ -33,7 +34,9 @@ const schema = z.object({
     .number({ message: "Informe um Valor" })
     .min(0.01, "Informe pelo menos 0.01"),
   typeId: z.guid({ message: "Informe um Tipo" }),
-  classificationId: z.guid({ message: "Informe uma Classificação" }),
+  classification: z.enum(ClassificationEnum, {
+    error: () => ({ message: "Informe uma Classificação" }),
+  }),
   description: z.string().nullable(),
 });
 
@@ -66,7 +69,7 @@ export default function LancamentosForm() {
   const isSubmitting = isPendingCreate || isPendingUpdate;
 
   const favDateKey = "fav_date";
-  const favClassificationIdKey = "fav_classificationId";
+  const favClassificationKey = "fav_classification";
   const favTypeIdKey = "fav_typeId";
 
   const storageValues = useStorageValues();
@@ -74,7 +77,8 @@ export default function LancamentosForm() {
   const getLastFavValues = () => {
     return {
       date: storageValues.get(favDateKey) || todayDate(),
-      classificationId: storageValues.get(favClassificationIdKey) || "",
+      classification:
+        (storageValues.get(favClassificationKey) as ClassificationEnum) || "",
       typeId: storageValues.get(favTypeIdKey) || "",
     };
   };
@@ -105,7 +109,7 @@ export default function LancamentosForm() {
 
     storageValues.set(favDateKey, d.date);
     storageValues.set(favTypeIdKey, d.typeId);
-    storageValues.set(favClassificationIdKey, d.classificationId);
+    storageValues.set(favClassificationKey, d.classification.toString());
 
     form.reset({ ...getLastFavValues() });
 
@@ -140,7 +144,7 @@ export default function LancamentosForm() {
               <AutoCompleteTipo name="typeId" required />
             </Grid>
             <Grid size={{ xs: 12, sm: 6 }}>
-              <AutoCompleteClassificacao name="classificationId" required />
+              <AutoCompleteClassificacao name="classification" required />
             </Grid>
             <Grid size={{ xs: 12 }}>
               <TextField
