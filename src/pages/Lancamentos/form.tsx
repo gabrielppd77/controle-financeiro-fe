@@ -21,11 +21,11 @@ import useFinancialEntriesCreate from "./data/useFinancialEntriesCreate";
 import useFinancialEntriesUpdate from "./data/useFinancialEntriesUpdate";
 import useFinancialEntriesGet from "./data/useFinancialEntriesGet";
 import CurrencyTextField from "@components/CurrencyTextField";
-import { todayDate } from "@utils";
+import { changeFormatter, todayDate, valueFormatter } from "@utils";
 import FetchingLoading from "@components/FetchingLoading";
 import FormProvider from "@components/FormProvider";
-import dayjs from "dayjs";
 import { ClassificationEnum } from "./data/dtos/ClassificationEnum";
+import type { GetFinancialEntryResponse } from "./data/dtos/GetFinancialEntryResponse";
 
 const schema = z.object({
   id: z.guid().optional(),
@@ -38,9 +38,17 @@ const schema = z.object({
     error: () => ({ message: "Informe uma Classificação" }),
   }),
   description: z.string().nullable(),
+  datePayment: z.string().nullable(),
 });
 
 type DataType = z.infer<typeof schema>;
+
+function mapToForm(data: GetFinancialEntryResponse): DataType {
+  return {
+    ...data,
+    typeId: data.typeId ?? "",
+  };
+}
 
 export default function LancamentosForm() {
   const { typeId } = useParams();
@@ -90,7 +98,7 @@ export default function LancamentosForm() {
       amount: 0,
       description: null,
     },
-    values: data,
+    values: data ? mapToForm(data) : undefined,
   });
 
   async function onSubmit(d: DataType) {
@@ -133,6 +141,9 @@ export default function LancamentosForm() {
               <DatePicker label="Data" name="date" required />
             </Grid>
             <Grid size={{ xs: 12, sm: 6 }}>
+              <DatePicker label="Data de Pagamento" name="datePayment" />
+            </Grid>
+            <Grid size={{ xs: 12, sm: 6 }}>
               <CurrencyTextField
                 label="Valor"
                 name="amount"
@@ -141,10 +152,10 @@ export default function LancamentosForm() {
               />
             </Grid>
             <Grid size={{ xs: 12, sm: 6 }}>
-              <AutoCompleteTipo name="typeId" required />
-            </Grid>
-            <Grid size={{ xs: 12, sm: 6 }}>
               <AutoCompleteClassificacao name="classification" required />
+            </Grid>
+            <Grid size={{ xs: 12 }}>
+              <AutoCompleteTipo name="typeId" required />
             </Grid>
             <Grid size={{ xs: 12 }}>
               <TextField
@@ -168,11 +179,9 @@ export default function LancamentosForm() {
                   label="Replicar até"
                   name="replicateUntilDate"
                   format="MM/YYYY"
-                  value={replicateUntilDate ? dayjs(replicateUntilDate) : null}
+                  value={valueFormatter(replicateUntilDate)}
                   onChange={(newValue) => {
-                    setReplicateUntilDate(
-                      newValue ? newValue.toISOString() : null,
-                    );
+                    setReplicateUntilDate(changeFormatter(newValue));
                   }}
                 />
                 <Tooltip title="Vamos replicar até o mês informado e vamos inclui-lo também">

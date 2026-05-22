@@ -38,6 +38,11 @@ export default function ThemeProvider(props: ThemeProviderProps) {
         defaultProps: {
           size: "small",
         },
+        styleOverrides: {
+          root: {
+            fontSize: "1rem",
+          },
+        },
       },
       MuiTextField: {
         defaultProps: {
@@ -48,6 +53,26 @@ export default function ThemeProvider(props: ThemeProviderProps) {
       MuiTooltip: {
         defaultProps: {
           arrow: true,
+        },
+      },
+
+      MuiInputLabel: {
+        styleOverrides: {
+          root: {
+            fontSize: 14,
+          },
+        },
+      },
+
+      MuiOutlinedInput: {
+        styleOverrides: {
+          root: {
+            minHeight: 36,
+            fontSize: 14,
+          },
+          input: {
+            padding: "8px 10px",
+          },
         },
       },
     },

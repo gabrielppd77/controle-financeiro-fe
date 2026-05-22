@@ -1,10 +1,17 @@
+import React from "react";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
 import AddIcon from "@mui/icons-material/Add";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { GridActionsCellItem } from "@mui/x-data-grid";
-import { Box, Grid, Typography } from "@mui/material";
+import {
+  Box,
+  Checkbox,
+  FormControlLabel,
+  Grid,
+  Typography,
+} from "@mui/material";
 
 import PageContainer from "../../components/PageContainer";
 import DataTable from "../../components/DataTable";
@@ -13,67 +20,86 @@ import useFinancialEntriesList from "./data/useFinancialEntriesList";
 import useFinancialEntriesDelete from "./data/useFinancialEntriesDelete";
 import { useGoTo } from "@hooks/useGoTo";
 import { confirmDelete } from "@libs/alert";
-import { endOfMonth, formatDate, formatMoney, startOfMonth } from "@utils";
+import {
+  changeFormatter,
+  formatDate,
+  formatMoney,
+  valueFormatter,
+} from "@utils";
 
 import { useSearchParams } from "react-router";
 
-import type { FinancialEntryFilterDto } from "./data/dtos/FinancialEntryFilterDto";
 import CurrencyTextField from "@components/CurrencyTextField";
 import AutoCompleteTipo from "@components/AutoComplete/AutoCompleteTipo";
 import AutoCompleteClassificacao from "@components/AutoComplete/AutoCompleteClassificacao";
-import TextFieldDebounce from "@components/TextFieldDebounce";
-import DatePicker from "@components/DatePicker";
-import dayjs from "dayjs";
+import DatePickerDebounce from "@components/DatePickerDebounce";
 import BoxColor from "@components/BoxColor";
-import type { ClassificationEnum } from "./data/dtos/ClassificationEnum";
+import TextFieldDebounce from "@components/TextFieldDebounce";
+import UploadCsvButton from "@components/UploadCsvButton";
+import { ClassificationEnum } from "./data/dtos/ClassificationEnum";
+
+const DataTableMemoized = React.memo(DataTable);
+
+import z from "zod";
+
+const filterSchema = z.object({
+  initialDate: z.string().nullable(),
+  finalDate: z.string().nullable(),
+  initialAmount: z.coerce.number().nullable(),
+  finalAmount: z.coerce.number().nullable(),
+  searchText: z.string().nullable(),
+  typeId: z.string().nullable(),
+  classification: z.enum(ClassificationEnum).nullable(),
+  isNotConfirmed: z
+    .string()
+    .nullable()
+    .transform((val) => {
+      if (val === null) return null;
+      return val === "true";
+    }),
+});
+
+type DataType = z.infer<typeof filterSchema>;
 
 export default function Lancamentos() {
   const pageTitle = "Lançamentos";
 
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const filters: FinancialEntryFilterDto = {
-    initialDate:
-      searchParams.get("initialDate") === null
-        ? startOfMonth()
-        : searchParams.get("initialDate"),
-    finalDate:
-      searchParams.get("finalDate") === null
-        ? endOfMonth()
-        : searchParams.get("finalDate"),
-    initialAmount: searchParams.get("initialAmount")
-      ? Number(searchParams.get("initialAmount"))
-      : null,
-    finalAmount: searchParams.get("finalAmount")
-      ? Number(searchParams.get("finalAmount"))
-      : null,
+  const filters = filterSchema.parse({
+    initialDate: searchParams.get("initialDate"),
+    finalDate: searchParams.get("finalDate"),
+    initialAmount: searchParams.get("initialAmount"),
+    finalAmount: searchParams.get("finalAmount"),
     searchText: searchParams.get("searchText"),
     typeId: searchParams.get("typeId"),
-    classification: searchParams.get(
-      "classification",
-    ) as ClassificationEnum | null,
-  };
-
-  const { data, isLoading, isFetching } = useFinancialEntriesList({
-    data: filters,
+    classification: searchParams.get("classification"),
+    isNotConfirmed: searchParams.get("isNotConfirmed"),
   });
-  const { mutateAsync } = useFinancialEntriesDelete();
 
-  const { goToLancamentosForm } = useGoTo();
-
-  function updateFilters(newFilters: FinancialEntryFilterDto) {
-    const params = new URLSearchParams(searchParams);
+  function updateFilters(newFilters: DataType) {
+    const params = new URLSearchParams();
 
     Object.entries(newFilters).forEach(([key, value]) => {
-      if (value === null || value === undefined || value === "") {
-        params.delete(key);
-      } else {
-        params.set(key, String(value));
-      }
+      if (value == null) return;
+      params.set(key, String(value));
     });
 
     setSearchParams(params);
   }
+
+  const { isNotConfirmed, ...restOfFilters } = filters;
+
+  const { data, isLoading, isFetching, refetch } = useFinancialEntriesList({
+    data: {
+      ...restOfFilters,
+      isConfirmed: isNotConfirmed === null ? null : !isNotConfirmed,
+    },
+  });
+
+  const { mutateAsync } = useFinancialEntriesDelete();
+
+  const { goToLancamentosForm } = useGoTo();
 
   const valueTotal = (data || []).reduce((pv, ct) => {
     return pv + ct.amount;
@@ -84,7 +110,8 @@ export default function Lancamentos() {
       title={pageTitle}
       breadcrumbs={[{ title: pageTitle }]}
       actions={
-        <Stack>
+        <Stack flexDirection="row" gap={1}>
+          <UploadCsvButton />
           <Button
             variant="contained"
             startIcon={<AddIcon />}
@@ -97,33 +124,33 @@ export default function Lancamentos() {
     >
       <Grid container spacing={1} sx={{ mb: 1 }}>
         <Grid size={{ xs: 12, sm: 6, md: 3 }}>
-          <DatePicker
+          <DatePickerDebounce
             label="Data inicial"
             name="initialDate"
             onChange={(newValue) => {
               updateFilters({
                 ...filters,
-                initialDate: newValue ? newValue.toISOString() : null,
+                initialDate: changeFormatter(
+                  newValue?.isValid() ? newValue : null,
+                ),
               });
             }}
-            value={filters.initialDate ? dayjs(filters.initialDate) : null}
+            value={valueFormatter(filters.initialDate)}
           />
         </Grid>
-
         <Grid size={{ xs: 12, sm: 6, md: 3 }}>
-          <DatePicker
+          <DatePickerDebounce
             label="Data final"
             name="finalDate"
             onChange={(newValue) => {
               updateFilters({
                 ...filters,
-                finalDate: newValue ? newValue.toISOString() : null,
+                finalDate: changeFormatter(newValue || null),
               });
             }}
-            value={filters.finalDate ? dayjs(filters.finalDate) : null}
+            value={valueFormatter(filters.finalDate)}
           />
         </Grid>
-
         <Grid size={{ xs: 12, sm: 6, md: 3 }}>
           <CurrencyTextField
             label="Valor inicial"
@@ -134,7 +161,6 @@ export default function Lancamentos() {
             value={filters.initialAmount}
           />
         </Grid>
-
         <Grid size={{ xs: 12, sm: 6, md: 3 }}>
           <CurrencyTextField
             label="Valor final"
@@ -145,7 +171,6 @@ export default function Lancamentos() {
             value={filters.finalAmount}
           />
         </Grid>
-
         <Grid size={{ xs: 12, sm: 6 }}>
           <AutoCompleteTipo
             name="typeId"
@@ -153,7 +178,6 @@ export default function Lancamentos() {
             value={filters.typeId || undefined}
           />
         </Grid>
-
         <Grid size={{ xs: 12, sm: 6 }}>
           <AutoCompleteClassificacao
             name="classification"
@@ -166,8 +190,7 @@ export default function Lancamentos() {
             value={filters.classification || undefined}
           />
         </Grid>
-
-        <Grid size={{ xs: 10 }}>
+        <Grid size={{ xs: 12, sm: 8, lg: 10 }}>
           <TextFieldDebounce
             label="Buscar"
             name="searchText"
@@ -178,20 +201,52 @@ export default function Lancamentos() {
             fullWidth
           />
         </Grid>
-
         <Grid
           sx={{
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
           }}
-          size={{ xs: 2 }}
+          size={{ xs: 12, sm: 4, lg: 2 }}
         >
+          <FormControlLabel
+            control={
+              <Checkbox
+                size="small"
+                checked={filters.isNotConfirmed === true}
+                indeterminate={filters.isNotConfirmed === null}
+                onChange={() => {
+                  let nextValue: boolean | null;
+
+                  if (filters.isNotConfirmed === null) nextValue = true;
+                  else if (filters.isNotConfirmed === true) nextValue = false;
+                  else nextValue = null;
+
+                  updateFilters({
+                    ...filters,
+                    isNotConfirmed: nextValue,
+                  });
+                }}
+              />
+            }
+            label="Não confirmados"
+          />
+        </Grid>
+        <Grid sx={{}} size={{ xs: 6 }}>
           <Typography>Valor total: {formatMoney(valueTotal)}</Typography>
+        </Grid>
+        <Grid
+          size={{ xs: 6 }}
+          sx={{
+            display: "flex",
+            justifyContent: "end",
+          }}
+        >
+          <Button onClick={() => refetch()}>Buscar</Button>
         </Grid>
       </Grid>
 
-      <DataTable
+      <DataTableMemoized
         columns={[
           {
             field: "date",
@@ -209,7 +264,7 @@ export default function Lancamentos() {
             headerName: "Tipo",
             minWidth: 150,
             renderCell: ({ row }) => (
-              <Box display="flex" alignItems="center" gap={1}>
+              <Box display="flex" alignItems="center" height="100%" gap={1}>
                 {row.typeName}
                 <BoxColor color={row.typeColor} fine />
               </Box>
@@ -220,7 +275,7 @@ export default function Lancamentos() {
             headerName: "Classificação",
             minWidth: 110,
             renderCell: ({ row }) => (
-              <Box display="flex" alignItems="center" gap={1}>
+              <Box display="flex" alignItems="center" height="100%" gap={1}>
                 {row.classificationName}
                 <BoxColor color={row.classificationColor} fine />
               </Box>
@@ -256,6 +311,18 @@ export default function Lancamentos() {
         data={data}
         isLoading={isLoading}
         isFetching={isFetching}
+        getRowClassName={(params) => {
+          return !params.row.isConfirmed ? "row-red" : "";
+        }}
+        sx={{
+          "& .row-red": {
+            backgroundColor: "#ffcdd2",
+            color: "#b71c1c",
+            "&:hover": {
+              backgroundColor: "#ef9a9a",
+            },
+          },
+        }}
       />
     </PageContainer>
   );

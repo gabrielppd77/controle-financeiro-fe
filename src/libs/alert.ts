@@ -23,6 +23,10 @@ function extractError(err: unknown) {
     }
   }
 
+  if (err instanceof Error) {
+    text = err.message;
+  }
+
   return { title, text, icon };
 }
 

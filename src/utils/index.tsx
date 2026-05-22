@@ -1,4 +1,4 @@
-import dayjs from "dayjs";
+import dayjs, { Dayjs } from "dayjs";
 
 export function formatMoney(value: number | null | undefined) {
   if (!value) return "";
@@ -12,7 +12,7 @@ export function formatMoney(value: number | null | undefined) {
 export function formatDate(value: string | null | undefined) {
   if (!value) return "";
 
-  return new Intl.DateTimeFormat("pt-BR").format(new Date(value));
+  return dayjs(value, "YYYY-MM-DD").format("DD/MM/YYYY");
 }
 
 export function todayDate() {
@@ -25,4 +25,14 @@ export function startOfMonth() {
 
 export function endOfMonth() {
   return dayjs().endOf("month").toISOString();
+}
+
+export function changeFormatter(value: Dayjs | null): string | null {
+  if (!value) return null;
+  return value.format("YYYY-MM-DD");
+}
+
+export function valueFormatter(value: string | null) {
+  if (!value) return null;
+  return dayjs(value);
 }
