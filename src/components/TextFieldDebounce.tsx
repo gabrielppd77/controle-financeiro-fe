@@ -1,5 +1,6 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import TextField, { type TextFieldProps } from "./TextField";
+import useDebounce from "@hooks/useDebounce";
 
 interface TextFieldDebounceProps extends Omit<TextFieldProps, "onChange"> {
   value?: string;
@@ -12,24 +13,11 @@ export default function TextFieldDebounce({
   ...props
 }: TextFieldDebounceProps) {
   const [search, setSearch] = useState(value);
-  const debounceRef = useRef<number>(null);
+  const debouncedValue = useDebounce(search, 100);
 
   useEffect(() => {
-    if (debounceRef.current) {
-      clearTimeout(debounceRef.current);
-    }
-
-    debounceRef.current = setTimeout(() => {
-      onChange(search);
-    }, 300);
-
-    return () => {
-      if (debounceRef.current) {
-        clearTimeout(debounceRef.current);
-      }
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [search]);
+    onChange(debouncedValue);
+  }, [debouncedValue]);
 
   return (
     <TextField

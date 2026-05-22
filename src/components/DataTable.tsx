@@ -3,8 +3,9 @@ import type {
   GridRowsProp,
   GridColDef,
   GridValidRowModel,
+  GridRowClassNameParams,
 } from "@mui/x-data-grid";
-import { Box } from "@mui/material";
+import { Box, type SxProps, type Theme } from "@mui/material";
 import FetchingLoading from "./FetchingLoading";
 
 interface DataTableProps<TData extends GridValidRowModel> {
@@ -12,6 +13,8 @@ interface DataTableProps<TData extends GridValidRowModel> {
   columns: GridColDef<TData>[];
   isLoading: boolean;
   isFetching: boolean;
+  getRowClassName?: (params: GridRowClassNameParams<TData>) => string;
+  sx?: SxProps<Theme>;
 }
 
 export default function DataTable<TData extends GridValidRowModel>({
@@ -19,6 +22,8 @@ export default function DataTable<TData extends GridValidRowModel>({
   columns,
   isLoading,
   isFetching,
+  getRowClassName,
+  sx,
 }: DataTableProps<TData>) {
   const apiRef = useGridApiRef();
 
@@ -53,6 +58,8 @@ export default function DataTable<TData extends GridValidRowModel>({
           paginationDisplayedRows: ({ from, to, count }) =>
             `${from}-${to} de ${count}`,
         }}
+        getRowClassName={getRowClassName}
+        sx={sx}
       />
     </Box>
   );

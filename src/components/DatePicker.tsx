@@ -2,10 +2,18 @@ import {
   DatePicker as MUIDatePicker,
   type DatePickerProps as MUIDatePickerProps,
 } from "@mui/x-date-pickers/DatePicker";
+import { changeFormatter, valueFormatter } from "@utils";
 import { Controller, useFormContext } from "react-hook-form";
-import dayjs from "dayjs";
 
-interface DatePickerProps extends Omit<MUIDatePickerProps, "label" | "name"> {
+const SLOT_PROPS_BASE = {
+  size: "small" as const,
+  fullWidth: true,
+};
+
+export interface DatePickerProps extends Omit<
+  MUIDatePickerProps,
+  "label" | "name"
+> {
   label: string;
   name: string;
   required?: boolean;
@@ -23,9 +31,8 @@ export default function DatePicker({
       <MUIDatePicker
         slotProps={{
           textField: {
-            size: "small",
+            ...SLOT_PROPS_BASE,
             required,
-            fullWidth: true,
           },
         }}
         name={name}
@@ -42,17 +49,14 @@ export default function DatePicker({
         <MUIDatePicker
           slotProps={{
             textField: {
+              ...SLOT_PROPS_BASE,
               helperText: fieldState.error ? fieldState.error.message : null,
               error: !!fieldState.error,
-              size: "small",
               required,
-              fullWidth: true,
             },
           }}
-          onChange={(newValue) => {
-            field.onChange(newValue ? newValue.toISOString() : null);
-          }}
-          value={field.value ? dayjs(field.value) : null}
+          onChange={(newValue) => field.onChange(changeFormatter(newValue))}
+          value={valueFormatter(field.value)}
           name={name}
           format="DD/MM/YYYY"
           {...rest}
