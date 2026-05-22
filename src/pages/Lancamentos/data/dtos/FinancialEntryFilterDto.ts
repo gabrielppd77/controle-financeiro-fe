@@ -8,4 +8,5 @@ export interface FinancialEntryFilterDto {
   searchText: string | null;
   typeId: string | null;
   classification: ClassificationEnum | null;
+  isConfirmed: boolean | null;
 }

@@ -4,11 +4,12 @@ export interface ListFinancialEntryResponse {
   id: string;
   date: string;
   amount: number;
-  typeId: string;
-  typeName: string;
-  typeColor: string;
+  typeId: string | null;
+  typeName: string | null;
+  typeColor: string | null;
   classification: ClassificationEnum;
   classificationName: string;
   classificationColor: string | null;
   description: string | null;
+  isConfirmed: boolean;
 }
