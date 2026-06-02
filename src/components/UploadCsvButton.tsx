@@ -13,7 +13,7 @@ import useImportCsv from "@pages/Lancamentos/data/useImportCsv";
 import { fireError } from "@libs/alert";
 import DatePicker from "./DatePicker";
 import { Close } from "@mui/icons-material";
-import { changeFormatter, valueFormatter } from "@utils";
+import { formatDate, formatToDayjs } from "@utils";
 
 export default function UploadCsvButton() {
   const { mutateAsync, isPending } = useImportCsv();
@@ -87,9 +87,9 @@ export default function UploadCsvButton() {
               label="Data do lançamento"
               required
               onChange={(newValue) =>
-                setDateFinancialEntry(changeFormatter(newValue))
+                setDateFinancialEntry(formatDate(newValue))
               }
-              value={valueFormatter(dateFinancialEntry)}
+              value={formatToDayjs(dateFinancialEntry)}
               disabled={isPending}
             />
 

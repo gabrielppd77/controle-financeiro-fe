@@ -12,7 +12,7 @@ import type { PickerValue } from "@mui/x-date-pickers/internals";
 import useDashboards from "./data/useDashboards";
 import FetchingLoading from "@components/FetchingLoading";
 import ChartBar from "./components/ChartBar";
-import { changeFormatter } from "@utils";
+import { formatDate } from "@utils";
 
 export default function Dashboard() {
   const pageTitle = "Painel";
@@ -28,8 +28,8 @@ export default function Dashboard() {
     isFetching,
   } = useDashboards({
     date: (dateYearMonth !== null
-      ? changeFormatter(dateYearMonth)
-      : changeFormatter(todayLocaleDate)) as string,
+      ? formatDate(dateYearMonth)
+      : formatDate(todayLocaleDate)) as string,
   });
 
   const isLoading = _isLoading || isFetching;

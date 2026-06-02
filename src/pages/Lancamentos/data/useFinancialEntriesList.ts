@@ -21,7 +21,7 @@ export default function useFinancialEntriesList({ data }: RequestProps) {
   }
 
   const { error, ...rest } = useQuery({
-    queryKey: queryFinancialEntriesList,
+    queryKey: [...queryFinancialEntriesList, data],
     queryFn: handleRequest,
   });
 

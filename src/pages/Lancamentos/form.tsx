@@ -21,7 +21,7 @@ import useFinancialEntriesCreate from "./data/useFinancialEntriesCreate";
 import useFinancialEntriesUpdate from "./data/useFinancialEntriesUpdate";
 import useFinancialEntriesGet from "./data/useFinancialEntriesGet";
 import CurrencyTextField from "@components/CurrencyTextField";
-import { changeFormatter, todayDate, valueFormatter } from "@utils";
+import { formatDate, todayDate, formatToDayjs } from "@utils";
 import FetchingLoading from "@components/FetchingLoading";
 import FormProvider from "@components/FormProvider";
 import { ClassificationEnum } from "./data/dtos/ClassificationEnum";
@@ -173,15 +173,17 @@ export default function LancamentosForm() {
             justifyContent="space-between"
             alignItems="center"
           >
-            {openReplicate ? (
+            {isEdit ? (
+              <div />
+            ) : openReplicate ? (
               <Stack direction="row" gap={1} alignItems="center">
                 <DatePicker
                   label="Replicar até"
                   name="replicateUntilDate"
                   format="MM/YYYY"
-                  value={valueFormatter(replicateUntilDate)}
+                  value={formatToDayjs(replicateUntilDate)}
                   onChange={(newValue) => {
-                    setReplicateUntilDate(changeFormatter(newValue));
+                    setReplicateUntilDate(formatDate(newValue));
                   }}
                 />
                 <Tooltip title="Vamos replicar até o mês informado e vamos inclui-lo também">

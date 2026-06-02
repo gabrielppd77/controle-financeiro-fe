@@ -9,30 +9,28 @@ export function formatMoney(value: number | null | undefined) {
   }).format(value);
 }
 
-export function formatDate(value: string | null | undefined) {
+export function formatDateToShow(value: string | null | undefined) {
   if (!value) return "";
-
   return dayjs(value, "YYYY-MM-DD").format("DD/MM/YYYY");
 }
 
-export function todayDate() {
-  return dayjs().toISOString();
-}
-
-export function startOfMonth() {
-  return dayjs().startOf("month").toISOString();
-}
-
-export function endOfMonth() {
-  return dayjs().endOf("month").toISOString();
-}
-
-export function changeFormatter(value: Dayjs | null): string | null {
-  if (!value) return null;
+export function formatDate(value: Dayjs | null): string {
+  if (!value) return "Data inválida";
   return value.format("YYYY-MM-DD");
 }
 
-export function valueFormatter(value: string | null) {
-  if (!value) return null;
+export function todayDate() {
+  return formatDate(dayjs());
+}
+
+export function startOfMonth() {
+  return formatDate(dayjs().startOf("month"));
+}
+
+export function endOfMonth() {
+  return formatDate(dayjs().endOf("month"));
+}
+
+export function formatToDayjs(value: string | null) {
   return dayjs(value);
 }

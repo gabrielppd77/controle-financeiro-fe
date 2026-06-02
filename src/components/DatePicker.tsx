@@ -2,7 +2,7 @@ import {
   DatePicker as MUIDatePicker,
   type DatePickerProps as MUIDatePickerProps,
 } from "@mui/x-date-pickers/DatePicker";
-import { changeFormatter, valueFormatter } from "@utils";
+import { formatDate, formatToDayjs } from "@utils";
 import { Controller, useFormContext } from "react-hook-form";
 
 const SLOT_PROPS_BASE = {
@@ -55,8 +55,8 @@ export default function DatePicker({
               required,
             },
           }}
-          onChange={(newValue) => field.onChange(changeFormatter(newValue))}
-          value={valueFormatter(field.value)}
+          onChange={(newValue) => field.onChange(formatDate(newValue))}
+          value={formatToDayjs(field.value)}
           name={name}
           format="DD/MM/YYYY"
           {...rest}
