@@ -14,23 +14,24 @@ export function formatDateToShow(value: string | null | undefined) {
   return dayjs(value, "YYYY-MM-DD").format("DD/MM/YYYY");
 }
 
-export function formatDate(value: Dayjs | null): string {
-  if (!value) return "Data inválida";
+export function formatDate(value: Dayjs | null) {
+  if (!value) return null;
   return value.format("YYYY-MM-DD");
 }
 
 export function todayDate() {
-  return formatDate(dayjs());
+  return formatDate(dayjs()) as string;
 }
 
 export function startOfMonth() {
-  return formatDate(dayjs().startOf("month"));
+  return formatDate(dayjs().startOf("month")) as string;
 }
 
 export function endOfMonth() {
-  return formatDate(dayjs().endOf("month"));
+  return formatDate(dayjs().endOf("month")) as string;
 }
 
 export function formatToDayjs(value: string | null) {
+  if (!value) return null;
   return dayjs(value);
 }

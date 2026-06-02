@@ -14,16 +14,16 @@ import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import useStorageValues from "@hooks/useStorageValues";
 import { useGoTo } from "@hooks/useGoTo";
 
 import useFinancialEntriesCreate from "./data/useFinancialEntriesCreate";
 import useFinancialEntriesUpdate from "./data/useFinancialEntriesUpdate";
 import useFinancialEntriesGet from "./data/useFinancialEntriesGet";
 import CurrencyTextField from "@components/CurrencyTextField";
-import { formatDate, todayDate, formatToDayjs } from "@utils";
+import { formatDate, formatToDayjs, todayDate } from "@utils";
 import FetchingLoading from "@components/FetchingLoading";
 import FormProvider from "@components/FormProvider";
+
 import { ClassificationEnum } from "./data/dtos/ClassificationEnum";
 import type { GetFinancialEntryResponse } from "./data/dtos/GetFinancialEntryResponse";
 
@@ -76,27 +76,14 @@ export default function LancamentosForm() {
   const isLoading = _isLoading || isFetching;
   const isSubmitting = isPendingCreate || isPendingUpdate;
 
-  const favDateKey = "fav_date";
-  const favClassificationKey = "fav_classification";
-  const favTypeIdKey = "fav_typeId";
-
-  const storageValues = useStorageValues();
-
-  const getLastFavValues = () => {
-    return {
-      date: storageValues.get(favDateKey) || todayDate(),
-      classification:
-        (storageValues.get(favClassificationKey) as ClassificationEnum) || "",
-      typeId: storageValues.get(favTypeIdKey) || "",
-    };
-  };
-
   const form = useForm<DataType>({
     resolver: zodResolver(schema),
     defaultValues: {
-      ...getLastFavValues(),
       amount: 0,
       description: null,
+      classification: "Expense",
+      datePayment: null,
+      date: todayDate(),
     },
     values: data ? mapToForm(data) : undefined,
   });
@@ -114,15 +101,7 @@ export default function LancamentosForm() {
         },
       });
     }
-
-    storageValues.set(favDateKey, d.date);
-    storageValues.set(favTypeIdKey, d.typeId);
-    storageValues.set(favClassificationKey, d.classification.toString());
-
-    form.reset({ ...getLastFavValues() });
-
-    setOpenReplicate(false);
-    setReplicateUntilDate(null);
+    goToLancamentos();
   }
 
   return (
