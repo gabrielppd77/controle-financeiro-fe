@@ -8,4 +8,5 @@ export interface UpdateFinancialEntryRequest {
   classification: ClassificationEnum;
   description: string | null;
   datePayment: string | null;
+  accountId: string | null;
 }

@@ -7,4 +7,5 @@ export interface CreateFinancialEntryRequest {
   classification: ClassificationEnum;
   description: string | null;
   datePayment: string | null;
+  accountId: string | null;
 }

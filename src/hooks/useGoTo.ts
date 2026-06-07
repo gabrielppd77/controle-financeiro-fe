@@ -12,6 +12,15 @@ export function useGoTo() {
     navigate("/tipos");
   }
 
+  function goToContasForm(accountId?: string) {
+    if (!accountId) return navigate("/contas/novo");
+    navigate(`/contas/${accountId}`);
+  }
+
+  function goToContas() {
+    navigate("/contas");
+  }
+
   function goToLancamentosForm(financialEntryId?: string) {
     if (!financialEntryId) return navigate("/lancamentos/novo");
     navigate(`/lancamentos/${financialEntryId}`);
@@ -36,6 +45,8 @@ export function useGoTo() {
   return {
     goToTiposForm,
     goToTipos,
+    goToContasForm,
+    goToContas,
     goToLancamentosForm,
     goToLancamentos,
     goToPainel,

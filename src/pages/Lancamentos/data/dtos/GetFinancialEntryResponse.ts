@@ -5,6 +5,7 @@ export interface GetFinancialEntryResponse {
   date: string;
   amount: number;
   typeId: string | null;
+  accountId: string | null;
   classification: ClassificationEnum;
   description: string | null;
   datePayment: string | null;

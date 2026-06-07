@@ -9,6 +9,7 @@ import type {} from "@mui/material/themeCssVarsAugmentation";
 import BarChartIcon from "@mui/icons-material/BarChart";
 import PointOfSaleIcon from "@mui/icons-material/PointOfSale";
 import FeedIcon from "@mui/icons-material/Feed";
+import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
 
 import { matchPath, useLocation } from "react-router";
 
@@ -147,6 +148,13 @@ export default function MainLayoutSidebar({
               icon={<FeedIcon />}
               href="/tipos"
               selected={!!matchPath("/tipos", pathname)}
+            />
+            <MainLayoutSidebarPageItem
+              id="contas"
+              title="Contas"
+              icon={<AccountBalanceIcon />}
+              href="/contas"
+              selected={!!matchPath("/contas", pathname)}
             />
           </List>
         </Box>

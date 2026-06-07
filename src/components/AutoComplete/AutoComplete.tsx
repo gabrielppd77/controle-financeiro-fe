@@ -11,7 +11,7 @@ interface AutoCompleteProps<TData> {
   isLoading?: boolean;
   idField: keyof TData extends string ? keyof TData : never;
   required?: boolean;
-  onChange?: (d: string) => void;
+  onChange?: (d: string | null) => void;
   value?: string;
   error?: FieldError;
 }
@@ -39,7 +39,7 @@ function AutoCompleteDefault<TData>({
     <Autocomplete
       id="auto-complete"
       onChange={(_, obj) =>
-        onChange && onChange(obj ? (obj[idField] as string) : "")
+        onChange && onChange(obj ? (obj[idField] as string) : null)
       }
       value={options.find((d) => d[idField] === value) || null}
       getOptionLabel={renderOptions}

@@ -12,6 +12,7 @@ import {
 import useImportCsv from "@pages/Lancamentos/data/useImportCsv";
 import { fireError } from "@libs/alert";
 import DatePicker from "./DatePicker";
+import AutoCompleteAccount from "./AutoComplete/AutoCompleteAccount";
 import { Close } from "@mui/icons-material";
 import { formatDate, formatToDayjs } from "@utils";
 
@@ -23,8 +24,9 @@ export default function UploadCsvButton() {
   const [open, setOpen] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [dateFinancialEntry, setDateFinancialEntry] = useState<string | null>(
-    "",
+    null,
   );
+  const [accountId, setAccountId] = useState<string | null>(null);
 
   function handleSelectFile(event: React.ChangeEvent<HTMLInputElement>) {
     const file = event.target.files?.[0];
@@ -59,11 +61,13 @@ export default function UploadCsvButton() {
         dateFinancialEntry,
         timezoneOffsetMinutes: 1,
         file: selectedFile,
+        accountId,
       },
     });
 
     setSelectedFile(null);
     setDateFinancialEntry("");
+    setAccountId("");
     setOpen(false);
 
     if (fileInputRef.current) {
@@ -91,6 +95,12 @@ export default function UploadCsvButton() {
               }
               value={formatToDayjs(dateFinancialEntry)}
               disabled={isPending}
+            />
+
+            <AutoCompleteAccount
+              name="accountId"
+              onChange={(val) => setAccountId(val || null)}
+              value={accountId ?? undefined}
             />
 
             <input

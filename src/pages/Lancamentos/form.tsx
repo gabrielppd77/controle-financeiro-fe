@@ -6,6 +6,7 @@ import TextField from "@components/TextField";
 import DatePicker from "@components/DatePicker";
 import AutoCompleteTipo from "@components/AutoComplete/AutoCompleteTipo";
 import AutoCompleteClassificacao from "@components/AutoComplete/AutoCompleteClassificacao";
+import AutoCompleteAccount from "@components/AutoComplete/AutoCompleteAccount";
 import { Close, Help } from "@mui/icons-material";
 
 import { Button, Grid, IconButton, Stack, Tooltip } from "@mui/material";
@@ -39,6 +40,7 @@ const schema = z.object({
   }),
   description: z.string().nullable(),
   datePayment: z.string().nullable(),
+  accountId: z.guid().nullable(),
 });
 
 type DataType = z.infer<typeof schema>;
@@ -84,6 +86,7 @@ export default function LancamentosForm() {
       classification: "Expense",
       datePayment: null,
       date: todayDate(),
+      accountId: null,
     },
     values: data ? mapToForm(data) : undefined,
   });
@@ -133,8 +136,11 @@ export default function LancamentosForm() {
             <Grid size={{ xs: 12, sm: 6 }}>
               <AutoCompleteClassificacao name="classification" required />
             </Grid>
-            <Grid size={{ xs: 12 }}>
+            <Grid size={{ xs: 12, sm: 6 }}>
               <AutoCompleteTipo name="typeId" required />
+            </Grid>
+            <Grid size={{ xs: 12, sm: 6 }}>
+              <AutoCompleteAccount name="accountId" />
             </Grid>
             <Grid size={{ xs: 12 }}>
               <TextField

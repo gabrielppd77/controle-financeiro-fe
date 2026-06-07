@@ -11,6 +11,8 @@ import Lancamentos from "@pages/Lancamentos";
 import LancamentosForm from "@pages/Lancamentos/form";
 import Tipos from "@pages/Tipos";
 import TiposForm from "@pages/Tipos/form";
+import Contas from "@pages/Contas";
+import ContasForm from "@pages/Contas/form";
 import Login from "@pages/Login";
 import Register from "@pages/Register";
 
@@ -58,6 +60,18 @@ const router = createBrowserRouter([
       {
         path: "/tipos/:typeId",
         Component: TiposForm,
+      },
+      {
+        path: "/contas",
+        Component: Contas,
+      },
+      {
+        path: "/contas/novo",
+        Component: ContasForm,
+      },
+      {
+        path: "/contas/:accountId",
+        Component: ContasForm,
       },
       {
         path: "*",

@@ -14,7 +14,7 @@ export default function useImportCsv() {
   const queryClient = useQueryClient();
 
   async function handleRequest({ data }: RequestProps) {
-    const { file, dateFinancialEntry } = data;
+    const { file, dateFinancialEntry, accountId } = data;
 
     const formData = new FormData();
 
@@ -29,6 +29,7 @@ export default function useImportCsv() {
         },
         params: {
           dateFinancialEntry,
+          accountId,
         },
       },
     );

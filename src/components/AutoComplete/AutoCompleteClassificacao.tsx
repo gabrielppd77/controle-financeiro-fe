@@ -4,7 +4,7 @@ import AutoComplete from "./AutoComplete";
 interface AutoCompleteClassificacaoProps {
   name: string;
   required?: boolean;
-  onChange?: (d: string) => void;
+  onChange?: (d: string | null) => void;
   value?: string;
 }
 export default function AutoCompleteClassificacao({
