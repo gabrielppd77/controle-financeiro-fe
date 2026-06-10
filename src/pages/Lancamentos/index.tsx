@@ -94,6 +94,17 @@ export default function Lancamentos() {
             ),
           },
           {
+            field: "accountName",
+            headerName: "Conta",
+            minWidth: 150,
+            renderCell: ({ row }) => (
+              <Box display="flex" alignItems="center" height="100%" gap={1}>
+                {row.accountName}
+                <BoxColor color={row.accountColor} fine />
+              </Box>
+            ),
+          },
+          {
             field: "description",
             headerName: "Descrição",
             flex: 1,

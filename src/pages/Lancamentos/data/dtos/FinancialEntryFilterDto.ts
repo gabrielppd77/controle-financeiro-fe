@@ -7,6 +7,7 @@ export interface FinancialEntryFilterDto {
   finalAmount: number | null;
   searchText: string | null;
   typeId: string | null;
+  accountId: string | null;
   classification: ClassificationEnum | null;
   isConfirmed: boolean | null;
 }

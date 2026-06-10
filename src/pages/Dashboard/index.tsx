@@ -64,7 +64,9 @@ export default function Dashboard() {
           </Box>
         </Stack>
 
-        <ChartPie data={data?.types || []} />
+        <ChartPie data={data?.types || []} title="Tipo" />
+
+        <ChartPie data={data?.accounts || []} title="Conta" innerRadius={50} />
 
         <ChartBar data={data?.classificationsOfYear || []} />
       </Stack>

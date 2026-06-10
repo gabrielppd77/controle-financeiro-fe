@@ -15,13 +15,15 @@ import type { GetStatisticMonthItemResponse } from "../data/dtos/GetStatisticMon
 
 interface ChartPieProps {
   data: GetStatisticMonthItemResponse[];
+  title: string;
+  innerRadius?: number;
 }
 
-export default function ChartPie({ data }: ChartPieProps) {
+export default function ChartPie({ data, title, innerRadius }: ChartPieProps) {
   return (
     <Stack component={Paper} padding={2} gap={1}>
       <Typography sx={{ textAlign: "center" }}>
-        Resultado do mês por <strong>Tipo</strong>
+        Resultado do mês por <strong>{title}</strong>
       </Typography>
 
       <Stack gap={4} direction={{ sm: "column", md: "row" }}>
@@ -31,6 +33,7 @@ export default function ChartPie({ data }: ChartPieProps) {
               data: data.map((d) => ({ ...d, color: d.color || undefined })),
               arcLabel: "label",
               arcLabelMinAngle: 35,
+              innerRadius,
             },
           ]}
           hideLegend
@@ -52,7 +55,7 @@ export default function ChartPie({ data }: ChartPieProps) {
           <Table aria-label="simple table" size="small">
             <TableHead>
               <TableRow>
-                <TableCell>Tipo</TableCell>
+                <TableCell>{title}</TableCell>
                 <TableCell align="right">Valor</TableCell>
               </TableRow>
             </TableHead>

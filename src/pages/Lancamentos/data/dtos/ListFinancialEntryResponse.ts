@@ -7,6 +7,9 @@ export interface ListFinancialEntryResponse {
   typeId: string | null;
   typeName: string | null;
   typeColor: string | null;
+  accountId: string | null;
+  accountName: string | null;
+  accountColor: string | null;
   classification: ClassificationEnum;
   classificationName: string;
   classificationColor: string | null;

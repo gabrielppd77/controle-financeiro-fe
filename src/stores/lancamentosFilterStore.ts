@@ -11,6 +11,7 @@ export interface LancamentosFilterData {
   finalAmount: number | null;
   searchText: string | null;
   typeId: string | null;
+  accountId: string | null;
   classification: ClassificationEnum | null;
   isNotConfirmed: boolean | null;
 }
@@ -23,6 +24,7 @@ export function getDefaultFilters(): LancamentosFilterData {
     finalAmount: null,
     searchText: null,
     typeId: null,
+    accountId: null,
     classification: null,
     isNotConfirmed: null,
   };

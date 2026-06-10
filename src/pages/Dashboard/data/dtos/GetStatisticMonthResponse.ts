@@ -3,6 +3,7 @@ import type { GetStatisticMonthItemResponse } from "./GetStatisticMonthItemRespo
 
 export interface GetStatisticMonthResponse {
   types: GetStatisticMonthItemResponse[];
+  accounts: GetStatisticMonthItemResponse[];
   classifications: GetStatisticMonthItemResponse[];
   classificationsOfYear: ChartDataOfYearDto[];
 }
