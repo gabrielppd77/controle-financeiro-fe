@@ -30,6 +30,15 @@ export function useGoTo() {
     navigate("/lancamentos");
   }
 
+  function goToRecurringEntriesForm(recurringEntryId?: string) {
+    if (!recurringEntryId) return navigate("/lancamentos-recorrentes/novo");
+    navigate(`/lancamentos-recorrentes/${recurringEntryId}`);
+  }
+
+  function goToRecurringEntries() {
+    navigate("/lancamentos-recorrentes");
+  }
+
   function goToPainel() {
     navigate("/painel");
   }
@@ -49,6 +58,8 @@ export function useGoTo() {
     goToContas,
     goToLancamentosForm,
     goToLancamentos,
+    goToRecurringEntriesForm,
+    goToRecurringEntries,
     goToPainel,
     goToRegistrar,
     goToLogin,

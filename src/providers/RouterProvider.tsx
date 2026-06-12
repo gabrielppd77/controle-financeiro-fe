@@ -13,6 +13,8 @@ import Tipos from "@pages/Tipos";
 import TiposForm from "@pages/Tipos/form";
 import Contas from "@pages/Contas";
 import ContasForm from "@pages/Contas/form";
+import RecurringEntries from "@pages/RecurringEntries";
+import RecurringEntriesForm from "@pages/RecurringEntries/form";
 import Login from "@pages/Login";
 import Register from "@pages/Register";
 
@@ -72,6 +74,18 @@ const router = createBrowserRouter([
       {
         path: "/contas/:accountId",
         Component: ContasForm,
+      },
+      {
+        path: "/lancamentos-recorrentes",
+        Component: RecurringEntries,
+      },
+      {
+        path: "/lancamentos-recorrentes/novo",
+        Component: RecurringEntriesForm,
+      },
+      {
+        path: "/lancamentos-recorrentes/:recurringEntryId",
+        Component: RecurringEntriesForm,
       },
       {
         path: "*",

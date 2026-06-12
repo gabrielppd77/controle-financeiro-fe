@@ -9,11 +9,7 @@ const url = "/RecurringEntries";
 
 export const queryRecurringEntriesList = [url];
 
-interface RequestProps {
-  enabled: boolean;
-}
-
-export default function useRecurringEntriesList({ enabled }: RequestProps) {
+export default function useRecurringEntriesList() {
   async function handleRequest() {
     const response = await api.get<RecurringEntryResponse[]>(url);
     return response.data;
@@ -22,7 +18,6 @@ export default function useRecurringEntriesList({ enabled }: RequestProps) {
   const { error, ...rest } = useQuery({
     queryKey: queryRecurringEntriesList,
     queryFn: handleRequest,
-    enabled,
   });
 
   if (error) {

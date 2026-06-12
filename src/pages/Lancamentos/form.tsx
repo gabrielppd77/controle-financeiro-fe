@@ -119,6 +119,14 @@ export default function LancamentosForm() {
         <Stack gap={1}>
           <Grid container spacing={1}>
             <FetchingLoading loading={isLoading} />
+            <Grid size={{ xs: 12 }}>
+              <TextField
+                label="Descrição"
+                name="description"
+                multiline
+                rows={2}
+              />
+            </Grid>
             <Grid size={{ xs: 12, sm: 6 }}>
               <DatePicker label="Data" name="date" required />
             </Grid>
@@ -141,14 +149,6 @@ export default function LancamentosForm() {
             </Grid>
             <Grid size={{ xs: 12, sm: 6 }}>
               <AutoCompleteAccount name="accountId" />
-            </Grid>
-            <Grid size={{ xs: 12 }}>
-              <TextField
-                label="Descrição"
-                name="description"
-                rows={4}
-                multiline
-              />
             </Grid>
           </Grid>
 

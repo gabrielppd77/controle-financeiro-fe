@@ -4,7 +4,7 @@ import AddIcon from "@mui/icons-material/Add";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { GridActionsCellItem } from "@mui/x-data-grid";
-import { Box } from "@mui/material";
+import { Box, Chip } from "@mui/material";
 
 import PageContainer from "../../components/PageContainer";
 import DataTable from "../../components/DataTable";
@@ -61,6 +61,11 @@ export default function Lancamentos() {
       <DataTable
         columns={[
           {
+            field: "description",
+            headerName: "Descrição",
+            flex: 1,
+          },
+          {
             field: "date",
             headerName: "Data",
             valueFormatter: formatDateToShow,
@@ -87,10 +92,11 @@ export default function Lancamentos() {
             headerName: "Classificação",
             minWidth: 110,
             renderCell: ({ row }) => (
-              <Box display="flex" alignItems="center" height="100%" gap={1}>
-                {row.classificationName}
-                <BoxColor color={row.classificationColor} fine />
-              </Box>
+              <Chip
+                label={row.classificationName}
+                color={row.classification === "Expense" ? "error" : "success"}
+                size="small"
+              />
             ),
           },
           {
@@ -103,11 +109,6 @@ export default function Lancamentos() {
                 <BoxColor color={row.accountColor} fine />
               </Box>
             ),
-          },
-          {
-            field: "description",
-            headerName: "Descrição",
-            flex: 1,
           },
           {
             field: "id",

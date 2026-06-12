@@ -10,6 +10,7 @@ import BarChartIcon from "@mui/icons-material/BarChart";
 import PointOfSaleIcon from "@mui/icons-material/PointOfSale";
 import FeedIcon from "@mui/icons-material/Feed";
 import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
+import RepeatIcon from "@mui/icons-material/Repeat";
 
 import { matchPath, useLocation } from "react-router";
 
@@ -155,6 +156,13 @@ export default function MainLayoutSidebar({
               icon={<AccountBalanceIcon />}
               href="/contas"
               selected={!!matchPath("/contas", pathname)}
+            />
+            <MainLayoutSidebarPageItem
+              id="lancamentos-recorrentes"
+              title="Recorrentes"
+              icon={<RepeatIcon />}
+              href="/lancamentos-recorrentes"
+              selected={!!matchPath("/lancamentos-recorrentes", pathname)}
             />
           </List>
         </Box>
